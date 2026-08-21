@@ -90,12 +90,13 @@ export default function ExpertProfile() {
               </p>
             </div>
 
-            {profile.location && (
+             {profile.location?.coordinates && (
               <div>
                 <h3 className="text-sm font-semibold text-gray-500 mb-1">مختصات ثبت شده (نقشه)</h3>
                 <div className="flex gap-4 text-sm text-gray-600 bg-gray-50 p-4 rounded-xl">
-                  <span>📍 عرض جغرافیایی: {profile.location.lat}</span>
-                  <span>📍 طول جغرافیایی: {profile.location.lng}</span>
+                  {/* عرض جغرافیایی ایندکس ۱ و طول جغرافیایی ایندکس ۰ است */}
+                  <span>📍 عرض جغرافیایی: {profile.location.coordinates[1]}</span>
+                  <span>📍 طول جغرافیایی: {profile.location.coordinates[0]}</span>
                 </div>
               </div>
             )}

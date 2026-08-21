@@ -20,8 +20,7 @@ export default function CategorySelect({ value, onChange, error }: CategorySelec
     console.error("خطا در دریافت لیست مشاغل از کش یا سرور");
   }
 
-  // استخراج آرایه مشاغل از ساختار داده‌ی دریافتی
-  const categoryList = responseData?.data || responseData || [];
+const categoryList = responseData?.data || responseData || [];
 
   return (
     <div className="w-full">

@@ -1,5 +1,5 @@
 import api from "@/shared/services/Api";
-import { CreateExpertPayload, UpdateExpertPayload } from "../types/experts.types";
+import { CreateExpertPayload, SearchExpertsPayload, UpdateExpertPayload } from "../types/experts.types";
 import { UpdateAvailabilityPayload } from "../types/status-type";
 
 export const getExpertProfile = async () => {
@@ -24,4 +24,8 @@ export const updateExpertAvailability = async (data: UpdateAvailabilityPayload) 
 export const deleteExpertProfile = async () => {
   const response = await api.delete('/experts/me');
   return response.data;
+};
+export const searchExperts = async (params: SearchExpertsPayload) => {
+  const response = await api.get('/experts/search', { params });
+  return response.data.data;
 };

@@ -1,4 +1,3 @@
-// hooks/useExpertProfile.ts
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { ExpertProfileData } from "../types/experts.types";
@@ -13,7 +12,6 @@ export const useExpertProfile = () => {
         
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const rawData: any = response.data ? response.data : response;
-
       
         if (!rawData || (typeof rawData === 'object' && Object.keys(rawData).length === 0)) {
           return null; 
@@ -27,9 +25,10 @@ export const useExpertProfile = () => {
             id: rawData.category.id,
             name: rawData.category.name,
           } : undefined,
+         
           location: rawData.location?.coordinates ? {
-            lat: rawData.location.coordinates[1],
-            lng: rawData.location.coordinates[0],
+            type: "Point",
+            coordinates: [rawData.location.coordinates[0], rawData.location.coordinates[1]] as [number, number],
           } : undefined,
           avatarUrl: rawData.avatar?.url || rawData.avatar?.path, 
           user: rawData.user ? {

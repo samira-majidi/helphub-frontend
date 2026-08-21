@@ -3,7 +3,7 @@
 import ExpertProfile from "@/entities/expert/ui/ExpertProfile";
 import { ExpertProfileForm } from "@/entities/expert/ui/ExpertProfileForm";
 import { ExpertStatusManager } from "@/entities/expert/ui/ExpertStatusManager";
-
+import ExpertSearchPage from "@/features/ExpertSearchFilter/ui/ExpertSearchPage";
 
 export default function ExpertProfilePage() {
   return (
@@ -20,6 +20,8 @@ export default function ExpertProfilePage() {
 
         <ExpertProfile/>
         <ExpertStatusManager/>
+        <ExpertSearchPage/>
+    
       </div>
     </main>
   );
