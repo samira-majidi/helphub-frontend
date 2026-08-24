@@ -2,9 +2,10 @@
 import { useCallback,useState } from 'react';
 
 import { useAuthStore } from '@/session/useAuthStore';
-import { SignInPayload } from './type';
+
 
 import { signInApi } from '../api/signIn';
+import { SignInPayload } from '../model/type';
 
 interface UseSignInProps {
   onSuccess?: () => void;

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 interface LogoProps {
@@ -7,17 +6,16 @@ interface LogoProps {
 
 export default function Logo({ className = "" }: LogoProps) {
   return (
-    // className که از بیرون میاد رو اینجا اضافه می‌کنیم
-    <Link href="/" className={`flex items-center ${className}`}>
-      <Image 
-        src="/logo.png" 
-        alt="Hotel Logo"
-        width={150}
-        height={50}
-        priority 
-        // کلاس‌های نامعتبر رو با مقادیر استاندارد جایگزین کردم
-        className="w-36 sm:w-40 md:w-44 lg:w-48 h-auto transition-all duration-300 object-contain"
-      />
+    <Link 
+      href="/" 
+      className={`flex items-center gap-2 text-white ${className}`}
+    >
+      <div className="w-9 h-9 border-2 border-yellow-400 rounded-lg flex items-center justify-center rotate-45 bg-[#111A3A]/50 shrink-0">
+        <span className="-rotate-45 font-bold text-yellow-400 text-lg">H</span>
+      </div>
+      <span className="font-bold text-lg tracking-wide hidden sm:block">
+        HelpHub
+      </span>
     </Link>
   );
 }

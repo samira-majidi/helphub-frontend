@@ -2,9 +2,9 @@
 import { useState } from 'react';
 
 import { useAuthStore } from '@/session/useAuthStore';
-import { RegisterPayload } from '../type';
+import { RegisterPayload } from '../model/type';
+import { registerSpecialistApi } from '../api/registerSpecialistApi';
 
-import { registerSpecialistApi } from '../../api/registerSpecialistApi';
 
 interface UseRegisterHostProps {
   onSuccess?: () => void;
@@ -16,7 +16,7 @@ export const useRegisterSpecialist  = ({ onSuccess }: UseRegisterHostProps = {})
 
   const setToken = useAuthStore((state) => state.setToken);
 
-  // تابع مستقل از رویدادهای DOM
+
   const registerSpecialist = async (payload: RegisterPayload) => {
     setLoading(true);
     setError(null);
@@ -44,7 +44,7 @@ export const useRegisterSpecialist  = ({ onSuccess }: UseRegisterHostProps = {})
     registerSpecialist,
     loading,
     error,
-    // در صورت نیاز به پاک کردن ارور به صورت دستی
+
     clearError: () => setError(null), 
   };
 };

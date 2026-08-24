@@ -1,109 +1,255 @@
-'use client';
+"use client";
+import { useState } from "react";
+import { Home, Wrench, CheckCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation"; 
+import { SignUpForm } from "@/features/auth/ui/signupForm";
+import Logo from "@/shared/ui/Logo";
+import { SignInForm } from "@/features/auth/ui/SignInForm";
 
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-
-import { SignUpForm } from '@/features/auth/ui/signupForm';
-
-
-
-export default function SignUpPage() {
-  const router = useRouter();
-  const [isNavigating, setIsNavigating] = useState(false);
-
-  const handleGoHome = () => {
-    setIsNavigating(true);
-    setTimeout(() => {
-      router.push('/');
-    }, 500);
-  };
-    // ۱. این تابع جدید رو برای لاگین موفق اضافه کن
-  const handleSignInSuccess = () => {
-    setIsNavigating(true);
-    setTimeout(() => {
-      router.push('/'); // یا داشبورد، هر مسیری که بعد از لاگین باید بره
-    }, 500);
-  };
+export default function AuthPage() {
+  const [role, setRole] = useState<"client" | "professional">("client");
+  const [isLogin, setIsLogin] = useState(false);
+  const router = useRouter(); 
 
   return (
-    <div 
-      className={`fixed inset-0 z-[100] h-screen flex flex-col lg:flex-row bg-[#F8F8F7] transition-opacity duration-500 overflow-y-auto lg:overflow-hidden ${
-        isNavigating ? 'opacity-0' : 'opacity-100'
-      }`}
-    >
-      {/* بخش تصویر */}
-      <div className="absolute inset-0 z-0 lg:relative lg:w-3/5 lg:block">
-        <Image
-          src="/herroSignIn.webp"
-          alt="Luxury Hotel Room"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/50 lg:hidden"></div>
-        <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/40 via-black/10 to-[#F8F8F7]"></div>
-        
-        {/* متن روی تصویر (فقط دسکتاپ) */}
-        <div className="hidden lg:block absolute bottom-[15%] left-16 max-w-lg z-10">
-          <div className="mb-6 animate-[slideUp_0.8s_ease-out]">
+    <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#070D1F] font-sans selection:bg-yellow-400/30 selection:text-yellow-200">
+      {/* ================= سمت چپ: بخش فرم ================= */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-4 pt-24 lg:pt-8 lg:p-8 xl:p-12 relative z-10">
+        <Logo className="absolute top-6 left-6 lg:top-8 lg:left-8 z-50" />
+
+        {/* کانتینر اصلی محتوا */}
+        <div className="w-full max-w-[400px]">
+          {/* متن خوش‌آمدگویی */}
+          {!isLogin && (
+            <div className="text-center mb-9 lg:mb-8">
+              <h2 className="text-[24px] lg:text-[28px] font-bold font-serif text-white mb-3 tracking-tight">
+                Welcome to HelpHub
+              </h2>
+              <p className="text-[#94A3B8] text-[12px] lg:text-[13px] leading-relaxed mx-auto">
+                Sign up to get started and find the best services.
+              </p>
+            </div>
+          )}
+
+          {/* دکمه‌های انتخاب نقش برای موبایل */}
+          <div className="w-full lg:hidden mb-6 flex space-x-2 bg-[#111A3A] p-1.5 rounded-2xl">
             <button
-              onClick={handleGoHome}
-              className="group flex items-center gap-2 px-5 py-2 rounded-full bg-[#0A58CA] text-white hover:bg-blue-700 transition-all duration-300 font-medium shadow-lg w-fit"
+              onClick={() => setRole("client")}
+              className={`flex-1 py-2 rounded-xl text-[13px] font-semibold transition-all ${role === "client" ? "bg-yellow-400 text-[#070D1F] shadow-md" : "text-gray-400 hover:text-white"}`}
             >
-              <svg className="w-4 h-4 transform transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
-              </svg>
-              <span className="text-[14px] tracking-wide">Back to Home</span>
+              Client
+            </button>
+            <button
+              onClick={() => setRole("professional")}
+              className={`flex-1 py-2 rounded-xl text-[13px] font-semibold transition-all ${role === "professional" ? "bg-yellow-400 text-[#070D1F] shadow-md" : "text-gray-400 hover:text-white"}`}
+            >
+              Professional
             </button>
           </div>
-          
-                   <p className="text-white/95 max-w-md animate-[slideUp_1s_ease-out]">
-            <span className="block font-light tracking-wider text-white/90 text-xl lg:text-[26px] leading-relaxed">
-              Discover a refined stay designed around your comfort.
-            </span>
-            {/* اگه خواستی یه خط تزئینی کوچیک و لوکس هم زیرش باشه اینو اضافه کن، خیلی شیکش می‌کنه: */}
-            <span className="block w-12 h-[1px] bg-white/40 mt-5"></span>
+
+          {isLogin ? (
+  <SignInForm 
+    onSuccess={() => {
+      router.push("/");
+      router.refresh(); // 👈 این خط به سرور میگه کوکی‌های جدید رو بخون و RootLayout رو آپدیت کن
+    }} 
+  />
+) : (
+  <SignUpForm 
+    role={role} 
+    onSuccess={() => {
+      router.push("/");
+      router.refresh(); // 👈 اینجا هم همینطور
+    }} 
+  />
+)}
+
+          {/* دکمه‌های سوییچ بین لاگین و ثبت‌نام */}
+          <p className="mt-6 text-center text-gray-400 text-[13px] lg:text-[14px]">
+            {isLogin ? "Don't have an account? " : "Already have an account? "}
+            <button
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors underline-offset-4 hover:underline"
+            >
+              {isLogin ? "Sign up" : "Log in"}
+            </button>
           </p>
-
         </div>
       </div>
 
-      {/* بخش فرم */}
-      <div className="relative z-10 w-full h-full lg:w-2/5 flex items-center justify-center p-5 lg:p-8">
-
-        {/* عرض فرم اینجا کنترل شده تا در موبایل و لپ‌تاپ بیش از حد پهن نشه */}
-        <div className="w-full max-w-[350px] lg:max-w-[440px] bg-white/95 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none p-6 lg:p-0 rounded-3xl lg:rounded-none shadow-2xl lg:shadow-none animate-[scaleIn_0.5s_ease-out]">
-          
+      {/* ================= سمت راست: بخش انتخاب نقش (دسکتاپ) ================= */}
+      <div className="hidden lg:flex w-1/2 bg-[#0B132B] flex-col justify-center items-center p-8 border-l border-white/5 relative overflow-hidden">
         
-           <SignUpForm onSuccess={handleSignInSuccess} />
+        <div className="absolute top-[-15%] right-[-10%] w-[450px] h-[450px] bg-yellow-400/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-[-15%] left-[-10%] w-[450px] h-[450px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
-          {/* دکمه بازگشت به خانه در موبایل */}
-          <div className="mt-5 flex justify-center lg:hidden">
-            <button
-              onClick={handleGoHome}
-              className="group flex items-center gap-1.5 text-gray-500 hover:text-[#0A58CA] transition-colors duration-300 font-medium"
+        <div className="text-center mb-10 z-10">
+          <h1 className="text-3xl xl:text-4xl font-bold font-serif text-white mb-3 tracking-tight">
+            Choose your role
+          </h1>
+          <p className="text-[#94A3B8] text-[15px] xl:text-[16px] max-w-sm mx-auto">
+            Select the option that best describes you to get started.
+          </p>
+        </div>
+
+        <div
+          className="flex gap-5 xl:gap-6 z-10"
+          style={{ perspective: "1000px" }}
+        >
+          <div
+            onClick={() => setRole("client")}
+            style={{ transformStyle: "preserve-3d" }}
+            className={`group cursor-pointer w-[230px] xl:w-[250px] h-[280px] xl:h-[300px] rounded-[28px] p-6 flex flex-col items-center justify-center text-center transition-all duration-500 ease-out border-2 relative
+              ${
+                role === "client"
+                  ? "border-yellow-400 bg-[#111A3A] -translate-y-3 shadow-[0_15px_50px_-15px_rgba(250,204,21,0.4)]"
+                  : "border-white/5 bg-[#111A3A]/40 hover:bg-[#111A3A]/70 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(255,255,255,0.1)]"
+              }
+              active:scale-95 active:rotate-x-12 active:shadow-none
+            `}
+          >
+            <div
+              className={`absolute inset-0 rounded-[26px] transition-opacity duration-500 bg-gradient-to-b from-yellow-400/10 to-transparent ${role === "client" ? "opacity-100" : "opacity-0"}`}
+            ></div>
+
+            <div
+              className={`relative z-10 w-24 h-24 rounded-2xl mb-6 flex items-center justify-center transition-all duration-500 ease-out
+                ${
+                  role === "client"
+                    ? "bg-yellow-400/20 shadow-[0_0_35px_rgba(250,204,21,0.4)] -translate-y-2 scale-110"
+                    : "bg-[#070D1F] group-hover:bg-[#070D1F]/80"
+                }
+              `}
+              style={{
+                transform:
+                  role === "client" ? "translateZ(30px)" : "translateZ(0px)",
+              }}
             >
-              <svg className="w-4 h-4 transform transition-transform duration-300 group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
-              </svg>
-              <span className="text-[13px] tracking-wide">Back to Home</span>
-            </button>
+              <Home
+                size={48}
+                className={`transition-all duration-500 ${role === "client" ? "text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]" : "text-gray-500 group-hover:text-gray-300"}`}
+                strokeWidth={1.5}
+              />
+            </div>
+
+            <h3
+              className="relative z-10 text-xl font-bold text-white mb-2 transition-transform duration-500"
+              style={{
+                transform:
+                  role === "client" ? "translateZ(15px)" : "translateZ(0px)",
+              }}
+            >
+              Client
+            </h3>
+            <p
+              className="relative z-10 text-gray-400 text-[14px] px-2 transition-transform duration-500"
+              style={{
+                transform:
+                  role === "client" ? "translateZ(8px)" : "translateZ(0px)",
+              }}
+            >
+              I need a service for my home
+            </p>
           </div>
 
+          <div
+            onClick={() => setRole("professional")}
+            style={{ transformStyle: "preserve-3d" }}
+            className={`group cursor-pointer w-[230px] xl:w-[250px] h-[280px] xl:h-[300px] rounded-[28px] p-6 flex flex-col items-center justify-center text-center transition-all duration-500 ease-out border-2 relative
+              ${
+                role === "professional"
+                  ? "border-yellow-400 bg-[#111A3A] -translate-y-3 shadow-[0_15px_50px_-15px_rgba(250,204,21,0.4)]"
+                  : "border-white/5 bg-[#111A3A]/40 hover:bg-[#111A3A]/70 hover:-translate-y-1 hover:shadow-[0_10px_30px_-10px_rgba(255,255,255,0.1)]"
+              }
+              active:scale-95 active:rotate-x-12 active:shadow-none
+            `}
+          >
+            <div
+              className={`absolute inset-0 rounded-[26px] transition-opacity duration-500 bg-gradient-to-b from-yellow-400/10 to-transparent ${role === "professional" ? "opacity-100" : "opacity-0"}`}
+            ></div>
+
+            <div
+              className={`relative z-10 w-24 h-24 rounded-2xl mb-6 flex items-center justify-center transition-all duration-500 ease-out
+                ${
+                  role === "professional"
+                    ? "bg-yellow-400/20 shadow-[0_0_35px_rgba(250,204,21,0.4)] -translate-y-2 scale-110"
+                    : "bg-[#070D1F] group-hover:bg-[#070D1F]/80"
+                }
+              `}
+              style={{
+                transform:
+                  role === "professional"
+                    ? "translateZ(30px)"
+                    : "translateZ(0px)",
+              }}
+            >
+              <Wrench
+                size={48}
+                className={`transition-all duration-500 ${role === "professional" ? "text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,0.8)]" : "text-gray-500 group-hover:text-gray-300"}`}
+                strokeWidth={1.5}
+              />
+            </div>
+
+            <h3
+              className="relative z-10 text-xl font-bold text-white mb-2 transition-transform duration-500"
+              style={{
+                transform:
+                  role === "professional"
+                    ? "translateZ(15px)"
+                    : "translateZ(0px)",
+              }}
+            >
+              Professional
+            </h3>
+            <p
+              className="relative z-10 text-gray-400 text-[14px] px-2 transition-transform duration-500"
+              style={{
+                transform:
+                  role === "professional"
+                    ? "translateZ(8px)"
+                    : "translateZ(0px)",
+              }}
+            >
+              I provide services to clients
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 xl:gap-8 mt-12 z-10">
+          <div className="flex items-center gap-2">
+            <CheckCircle2
+              size={18}
+              className="text-yellow-400"
+              fill="rgba(250,204,21,0.2)"
+            />
+            <span className="text-gray-300 text-[14px] font-medium tracking-wide">
+              Secure
+            </span>
+          </div>
+          <div className="w-px h-4 bg-white/20"></div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2
+              size={18}
+              className="text-yellow-400"
+              fill="rgba(250,204,21,0.2)"
+            />
+            <span className="text-gray-300 text-[14px] font-medium tracking-wide">
+              Fast setup
+            </span>
+          </div>
+          <div className="w-px h-4 bg-white/20"></div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2
+              size={18}
+              className="text-yellow-400"
+              fill="rgba(250,204,21,0.2)"
+            />
+            <span className="text-gray-300 text-[14px] font-medium tracking-wide">
+              Built for you
+            </span>
+          </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes scaleIn {
-          from { transform: scale(0.95); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-        @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }
