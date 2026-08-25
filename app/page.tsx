@@ -2,6 +2,7 @@ import Image from "next/image";
 import { SearchWidget } from "@/widget/expert-search-result/SearchWidget";
 import { ShieldCheck, Star, Tag } from "lucide-react";
 import ServicesCover from "@/shared/ui/ServicesCover";
+import ExpertSearchResults from "@/widget/expert-search-result/ExpertSearchResults";
 
 export default function HomePage() {
   return (

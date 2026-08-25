@@ -1,12 +1,10 @@
 "use client";
 
 import ExpertCard from '@/entities/expert/ui/ExpertCard';
-import { LoadingState } from '@/shared/ui/LoadingState';
 import { ErrorState } from '@/shared/ui/ErrorState';
 import { EmptyState } from '@/shared/ui/EmptyState';
 import { ExpertProfileData } from "@/entities/expert/types/experts.types";
 
-// این اینترفیس رو اضافه کردیم تا دیتا رو از بیرون بگیره
 interface ExpertListProps {
   experts: ExpertProfileData[];
   isFetching: boolean;
@@ -15,7 +13,6 @@ interface ExpertListProps {
 }
 
 export default function ExpertList({ experts, isFetching, isError, refetch }: ExpertListProps) {
-  // ۱. حالت خطا
   if (isError) {
     return (
       <ErrorState 
@@ -26,12 +23,6 @@ export default function ExpertList({ experts, isFetching, isError, refetch }: Ex
     );
   }
 
-  // ۲. حالت لودینگ اولیه
-  if (isFetching && experts?.length === 0) {
-    return <LoadingState className="h-[400px]" />;
-  }
-
-  // ۳. حالت دیتای خالی
   if (!isFetching && (!experts || experts.length === 0)) {
     return (
       <EmptyState 
@@ -42,17 +33,21 @@ export default function ExpertList({ experts, isFetching, isError, refetch }: Ex
   }
 
   return (
-    <div className="relative mt-8"> {/* یکم فاصله دادیم که از فیلترها جدا شه */}
-      {/* هاله نیمه‌شفاف برای آپدیت دیتا در پس‌زمینه */}
-      {isFetching && experts.length > 0 && (
-        <div className="absolute inset-0 z-10 rounded-2xl bg-white/40 backdrop-blur-[1.5px] transition-all duration-300" />
-      )}
+    // تغییر ۱: اضافه شدن max-lg:h-auto و lg:h-full
+    <div className="flex max-lg:h-auto lg:h-full w-full flex-col font-sans">
       
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {experts.map((expert: ExpertProfileData) => (
-          <ExpertCard key={expert.id} expert={expert} />
-        ))}
+      {/* تغییر ۲: اضافه شدن max-lg:overflow-visible و lg:overflow-y-auto */}
+      <div className="relative flex-1 min-h-0 max-lg:overflow-visible lg:overflow-y-auto custom-scrollbar pr-2 pb-4">
+        <div className="flex flex-col gap-4">
+          {experts?.map((expert: ExpertProfileData) => (
+            <ExpertCard key={expert.id} expert={expert} />
+          ))}
+        </div>
+
+        
       </div>
+      
     </div>
   );
+
 }

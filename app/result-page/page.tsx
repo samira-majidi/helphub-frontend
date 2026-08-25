@@ -1,55 +1,59 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useExpertSearch } from '@/entities/expert/api/useExpertSearch'; // مسیر هوک خودت رو بذار
-import ExpertList from '@/widget/exper-list/ExpertList';
-import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import ExpertSearchResults from '@/widget/expert-search-result/ExpertSearchResults';
+import { useExpertSearch } from '@/features/ExpertSearchFilter/Api/useExpertSearch'; 
 
-export default function ResultsPage() {
+export default function ResultPageContent() {
   const searchParams = useSearchParams();
-  
-  // خواندن مقادیر از URL
-  const lat = searchParams.get('lat');
-  const lng = searchParams.get('lng');
-  const categoryId = searchParams.get('category');
+  const router = useRouter();
 
-  // اگر طول و عرض جغرافیایی در URL نبود
-  if (!lat || !lng) {
-    return (
-      <div className="text-center mt-20">
-        <p>موقعیت مکانی مشخص نشده است!</p>
-        <Link href="/experts/search" className="text-blue-500 underline mt-4 block">
-          برگشت به صفحه جستجو
-        </Link>
-      </div>
-    );
-  }
-
-  // ساختن آبجکت لوکیشن برای پاس دادن به هوک
-  const location = { lat: parseFloat(lat), lng: parseFloat(lng) };
-  const catId = categoryId ? parseInt(categoryId) : null;
-
-  // فراخوانی هوک (هوک باید طوری تغییر کنه که این مقادیر رو به عنوان ورودی بگیره)
-  const { experts, isFetching, isError, refetch } = useExpertSearch({ 
+  // گرفتن تمام استیت‌ها و لاجیک‌ها از هوک بدون تغییر
+  const { 
     location, 
-    categoryId: catId 
+    categoryId, 
+    isMapModalOpen, 
+    experts, 
+    isFetching, 
+    isError, 
+    refetch,
+    setLocation,
+    setCategoryId,
+    setIsMapModalOpen 
+  } = useExpertSearch({ 
+    category: searchParams.has('categoryId') ? Number(searchParams.get('categoryId')) : undefined,
+    lat: searchParams.has('lat') ? Number(searchParams.get('lat')) : undefined,
+    lng: searchParams.has('lng') ? Number(searchParams.get('lng')) : undefined,
   });
 
-  return (
-    <div className="max-w-6xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">نتایج جستجوی شما ✨</h1>
-        <Link href="/experts/search" className="text-sm bg-gray-100 px-4 py-2 rounded-md hover:bg-gray-200">
-          تغییر فیلترها 🔄
-        </Link>
-      </div>
+  // سینک کردن URL با استیت‌های جستجو (بدون رفرش صفحه)
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (categoryId) params.append('categoryId', categoryId.toString());
+    if (location) {
+      params.append('lat', location.lat.toString());
+      params.append('lng', location.lng.toString());
+    }
+    // جایگزین کردن URL فعلی تا اگر کاربر صفحه رو رفرش کرد اطلاعات بماند
+    router.replace(`?${params.toString()}`, { scroll: false });
+  }, [location, categoryId, router]);
 
-      <ExpertList 
-        experts={experts} 
-        isFetching={isFetching} 
-        isError={isError} 
-        refetch={refetch} 
-        location={location} 
+  return (
+    // ✨ تغییر اصلی اینجاست ✨
+    // ارتفاع و overflow فقط در سایز دسکتاپ (lg) اعمال می‌شوند
+    <div className="mx-auto flex w-full max-w-7xl flex-col max-lg:h-auto lg:h-[calc(100vh-80px)] lg:overflow-hidden px-4 pt-6 sm:px-6 lg:px-8">
+      <ExpertSearchResults
+        location={location}
+        setLocation={setLocation}
+        categoryId={categoryId}
+        setCategoryId={setCategoryId}
+        isMapModalOpen={isMapModalOpen}
+        setIsMapModalOpen={setIsMapModalOpen}
+        experts={experts}
+        isFetching={isFetching}
+        isError={isError}
+        refetch={refetch}
       />
     </div>
   );

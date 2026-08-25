@@ -20,8 +20,7 @@ export default function ExpertProfilePage() {
 
         <ExpertProfile/>
         <ExpertStatusManager/>
-        <ExpertSearchPage/>
-    
+       
       </div>
     </main>
   );
