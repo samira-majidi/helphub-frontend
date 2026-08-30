@@ -15,7 +15,7 @@ class SocketService {
     }
     return this.socket;
   }
-     connectExpert(token: string) {
+  connectExpert(token: string) {
     if (!this.expertSocket) {
       this.expertSocket = io(`${SOCKET_CONFIG.URL}/experts`, {
         auth: { token },
@@ -41,7 +41,7 @@ class SocketService {
       this.socket = null;
     }
   }
-   disconnectExpert() {
+  disconnectExpert() {
     if (this.expertSocket) {
       this.expertSocket.disconnect();
       this.expertSocket = null;
@@ -60,7 +60,7 @@ class SocketService {
   disconnect() {
     this.disconnectChat();
     this.disconnectNotification();
-     this.disconnectExpert(); 
+    this.disconnectExpert(); 
   }
 
   // ==========================================
@@ -70,12 +70,32 @@ class SocketService {
     this.socket?.emit('joinDirectRoom', { targetUserId });
   }
 
+  leaveRoom(roomId: string) {
+    this.socket?.emit('leaveRoom', { roomId });
+  }
+
   sendDirectMessage(roomId: string, content: string, type: 'TEXT' | 'IMAGE' | 'AUDIO' = 'TEXT', imageId?: string, audioId?: string) {
     this.socket?.emit('sendDirectMessage', { roomId, content, type, imageId, audioId });
   }
   
   sendTypingStatus(roomId: string, isTyping: boolean) {
     this.socket?.emit('typing', { roomId, isTyping });
+  }
+  
+  markAsRead(roomId: string) {
+    this.socket?.emit('mark_as_read', { roomId });
+  }
+
+  onMessagesRead(callback: (data: { roomId: string; userId: string; readAt: string }) => void) {
+    this.socket?.on('messages_read', callback);
+  }
+
+  offMessagesRead(callback?: (data: { roomId: string; userId: string; readAt: string }) => void) {
+    if (callback) {
+      this.socket?.off('messages_read', callback);
+    } else {
+      this.socket?.off('messages_read');
+    }
   }
 }
 

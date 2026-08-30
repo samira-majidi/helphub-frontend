@@ -63,7 +63,7 @@ export const useExpertStatusSocket = () => {
                     )
                   };
                 }
-                // اگر خود page مستقیماً آرایه است
+             
                 if (Array.isArray(page)) {
                   return page.map((expert: ExpertProfileData) =>
                     expert.id === data.expertId ? { ...expert, availabilityStatus: data.status } : expert
@@ -74,7 +74,7 @@ export const useExpertStatusSocket = () => {
             };
           }
 
-          // حالت ۲: خروجی صفحه‌بندی استاندارد (داده‌ها داخل پراپرتی data هستند)
+
           if (oldData.data && Array.isArray(oldData.data)) {
             return {
               ...oldData,
@@ -101,12 +101,11 @@ export const useExpertStatusSocket = () => {
             );
           }
 
-          // در غیر این صورت، ساختار ناشناخته است؛ داده را دست‌نخورده برگردان
           return oldData;
         }
       );
 
-      // به‌روزرسانی کش پروفایل هم سر جای خودش باقی می‌مونه
+
       queryClient.invalidateQueries({ queryKey: ['expertProfile'] });
     };
 

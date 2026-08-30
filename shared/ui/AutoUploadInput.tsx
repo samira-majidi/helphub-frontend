@@ -1,13 +1,10 @@
-
 import React from 'react';
-
-
 import { useAutoUpload } from '../hooks/useAutoUpload';
 
 interface AutoUploadInputProps {
   onUploadSuccess: (imageId: string) => void;
   label?: string;
-    isPrivate?: boolean;
+  isPrivate?: boolean;
 }
 
 export const AutoUploadInput = ({ onUploadSuccess, label = "Select Image", isPrivate = false  }: AutoUploadInputProps) => {
@@ -17,48 +14,52 @@ export const AutoUploadInput = ({ onUploadSuccess, label = "Select Image", isPri
     const file = event.target.files?.[0];
     if (file) {
      mutate({ file, isPrivate }, {
-  onSuccess: (res) => {
-    console.log("Response directly in Component:", res); // 👈 اینو حتما چک کن
-    if (res) {
-      onUploadSuccess(res);
-    } else {
-      console.error("بک‌اِند جواب داد ولی دیتا خالیه!");
-    }
-  },
-  onError: (err) => {
-    console.error("خطای شبکه یا سرور:", err);
-      console.log("BASE URL IS:", process.env.NEXT_PUBLIC_API_URL);
+      onSuccess: (res) => {
+        console.log("Response directly in Component:", res); // 👈 اینو حتما چک کن
+        if (res) {
+          onUploadSuccess(res);
+        } else {
+          console.error("بک‌اِند جواب داد ولی دیتا خالیه!");
+        }
+      },
+      onError: (err) => {
+        console.error("خطای شبکه یا سرور:", err);
+          console.log("BASE URL IS:", process.env.NEXT_PUBLIC_API_URL);
 
-  }
-});
+      }
+    });
       event.target.value = ''; // Resetting input
     }
   };
+
   return (
-    <div className="relative flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group">
+    // یه کانتینر ساده که دقیقاً اندازه والد خودش (همون دکمه‌های ۳۶ پیکسلی تو چت‌باکس) درمیاد
+    <div className="relative flex items-center justify-center w-full h-full text-gray-500 hover:text-[#1a2438] transition-colors cursor-pointer" title={label}>
       
-      {/* در صورت نیاز به لیبل می‌تونی این خط رو نگه داری، وگرنه حذفش کن */}
-      {label && <span className="absolute top-2 text-sm font-medium text-gray-500">{label}</span>}
+      {isPending ? (
+        // در زمان آپلود شدن، آیکون لودینگ نشون میده
+        <span className="animate-spin text-sm">⏳</span>
+      ) : (
+        // آیکون پیوست/عکس به رنگ خاکستری (مشابه تصویر HelpHub)
+        <svg 
+          className="w-5 h-5" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+        </svg>
+      )}
       
-      <svg 
-        className="w-10 h-10 text-gray-400 group-hover:text-blue-500 transition-colors" 
-        fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-      </svg>
-      
+      {/* اینپوت نامرئی که روی کل آیکون رو پوشونده تا قابل کلیک باشه */}
       <input 
         type="file" 
         accept="image/*" 
         onChange={handleFileSelect} 
         disabled={isPending}
-        // این کلاس‌ها جادوی کار هستن: اینپوت رو نامرئی میکنن و روی کل باکس میکشن
-        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed" 
       />
       
-      {isPending && <span className="absolute bottom-2 text-sm text-blue-500 font-medium">Uploading...</span>}
     </div>
   );
 }

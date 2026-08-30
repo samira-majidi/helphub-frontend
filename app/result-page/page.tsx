@@ -4,11 +4,12 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import ExpertSearchResults from '@/widget/expert-search-result/ExpertSearchResults';
 import { useExpertSearch } from '@/features/ExpertSearchFilter/Api/useExpertSearch'; 
+import { useExpertStatusSocket } from '@/entities/expert/hook/useExpertStatusSocket';
 
 export default function ResultPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-
+   useExpertStatusSocket();
   // گرفتن تمام استیت‌ها و لاجیک‌ها از هوک بدون تغییر
   const { 
     location, 

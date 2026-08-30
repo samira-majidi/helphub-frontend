@@ -3,11 +3,12 @@ import { socketService } from '@/shared/services/socket.service';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { INotification, NotificationType } from '../types/notification';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const useNotificationSocket = () => {
   const token = useAuthStore((state) => state.accessToken);
   const [notifications, setNotifications] = useState<INotification[]>([]);
-
+ const queryClient = useQueryClient();
   useEffect(() => {
     if (!token) {
       console.log('⚠️ No token found, skipping notification socket connection.');
@@ -32,7 +33,9 @@ export const useNotificationSocket = () => {
       switch (payload.type) {
         case NotificationType.NEW_MESSAGE:
           toast.success(payload.title, { duration: 4000 });
+          queryClient.invalidateQueries({ queryKey: ['recent-conversations'] });
           break;
+          
         case NotificationType.SYSTEM_ALERT:
           toast.error(payload.message); 
           break;
@@ -52,7 +55,7 @@ export const useNotificationSocket = () => {
         socketService.notificationSocket.off('newNotification');
       }
     };
-  }, [token]);
+  }, [queryClient, token]);
 
   return { notifications };
 };

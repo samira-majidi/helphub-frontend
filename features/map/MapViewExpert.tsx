@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap, ZoomControl } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Tooltip, useMap, ZoomControl } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -117,11 +117,10 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
           zoomControl={false} // حذف زوم پیش‌فرض برای تغییر جایگاه
           style={{ height: "100%", width: "100%", zIndex: 1 }}
         >
-          {/* نقشه روشن (Carto Light) مشابه تصویر */}
-          <TileLayer
-            attribution='&copy; <a href="https://carto.com/">Carto</a>'
-            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          />
+        <TileLayer
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+/>
           
           {/* دکمه‌های زوم در پایین سمت راست */}
           <ZoomControl position="bottomright" />

@@ -34,3 +34,8 @@ export const getExpertById = async (id: string) => {
    console.log(response.data.data)
   return response?.data?.data?.data; 
 };
+export const getUserProfile = async (id: string | number) => {
+  const response = await api.get(`/users/profile/${id}`);
+
+  return response.data.data; 
+};

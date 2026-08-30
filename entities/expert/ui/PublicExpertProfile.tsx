@@ -80,13 +80,15 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
         {/* هدر کارت: عکس و اطلاعات اصلی */}
         <div className="flex items-center gap-4 border-b border-white/10 pb-5">
           {/* آواتار با Next/Image */}
-          <div className="relative h-16 w-16 shrink-0 rounded-full border-2 border-[#f6c72d] bg-slate-200 shadow-sm">
-            {expert.avatar ? (
+           <div className="relative h-16 w-16 shrink-0 rounded-full border-2 border-[#f6c72d] bg-slate-200 shadow-sm">
+            {/* شرط سخت‌گیرانه‌تر برای جلوگیری از پاس داده شدن آبجکت */}
+            {typeof expert.avatar === 'string' && expert.avatar.trim() !== '' ? (
               <Image 
                 src={expert.avatar} 
                 alt={expert.user?.name || 'Expert Avatar'} 
                 width={64}
                 height={64}
+                 priority 
                 className="h-full w-full rounded-full object-cover"
               />
             ) : (
@@ -97,7 +99,6 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
             {/* نشانگر وضعیت */}
             <div className={`absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-[#061c38] ${getStatusColor(expert.availabilityStatus)}`} />
           </div>
-
           {/* نام و دسته‌بندی */}
           <div className="flex-1 overflow-hidden">
             <h3 className="truncate text-xl font-bold">

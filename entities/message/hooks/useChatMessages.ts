@@ -1,10 +1,11 @@
-// فایل: src/features/chat/hooks/useChatMessages.ts
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useAuthStore } from '@/session/useAuthStore';
 import { jwtDecode } from 'jwt-decode';
 import api from '@/shared/services/Api';
 import { socketService } from '@/shared/services/socket.service';
 import { ChatMessage } from '@/entities/message/model/type';
+import { getUserProfile } from '@/entities/expert/api/expert.api';
+
 
 export const useChatMessages = (targetUserID: number) => {
   const accessToken = useAuthStore((state) => state.accessToken);
@@ -14,9 +15,15 @@ export const useChatMessages = (targetUserID: number) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [activeRoomId, setActiveRoomId] = useState<string | null>(null);
   const [targetLastSeen, setTargetLastSeen] = useState<number | null>(null);
+  const [targetLastReadAt, setTargetLastReadAt] = useState<Date | null>(null);
   const [isTargetTyping, setIsTargetTyping] = useState(false);
   const [isTargetOnline, setIsTargetOnline] = useState(false);
-  
+  const [targetUser, setTargetUser] = useState<{ name?: string; avatar?: string } | null>(null);
+  // Ref جهت دسترسی به آخرین roomId در زمان cleanup افکت
+  const activeRoomIdRef = useRef<string | null>(null);
+  // eslint-disable-next-line react-hooks/refs
+  activeRoomIdRef.current = activeRoomId;
+
   // States for Pagination
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -32,7 +39,26 @@ export const useChatMessages = (targetUserID: number) => {
       return null;
     }
   }, [accessToken]);
+ useEffect(() => {
+    if (!targetUserID) return;
 
+    const fetchTargetProfile = async () => {
+      try {
+        const profile = await getUserProfile(targetUserID);
+        
+        // بک‌اند الان نام، نام خانوادگی و آواتار رو (چه متخصص چه عادی) یکپارچه میده
+        setTargetUser({
+          name: `${profile.name || ''} ${profile.lastName || ''}`.trim(),
+          avatar: profile.avatarUrl,
+          role: profile.role, // اگه دوست داشتی بدونی طرف متخصص هست یا نه
+        });
+      } catch (error) {
+        console.error('❌ خطا در دریافت اطلاعات کاربر مقابل:', error);
+      }
+    };
+
+    fetchTargetProfile();
+  }, [targetUserID]);
   // --- 2. Socket Connection & Events ---
   useEffect(() => {
     if (!accessToken) return;
@@ -50,11 +76,17 @@ export const useChatMessages = (targetUserID: number) => {
       setIsTargetTyping(data.isTyping);
     };
 
-    const handleJoinedRoom = async (data: { roomId: string; targetUserLastSeen?: number | null; isTargetOnline?: boolean }) => {
+    const handleJoinedRoom = async (data: { 
+      roomId: string; 
+      targetUserLastSeen?: number | null; 
+      isTargetOnline?: boolean;
+      targetUserLastReadAt?: string | null;
+    }) => {
       setActiveRoomId(data.roomId);
+      console.log("📦 Data received on joinedRoom:", data); 
       if (data.targetUserLastSeen) setTargetLastSeen(data.targetUserLastSeen);
-      
       if (data.isTargetOnline !== undefined) setIsTargetOnline(data.isTargetOnline);
+      if (data.targetUserLastReadAt) setTargetLastReadAt(new Date(data.targetUserLastReadAt));
                
       try {
         const response = await api.get(`/chat/rooms/${data.roomId}/messages?limit=20`);
@@ -92,6 +124,15 @@ export const useChatMessages = (targetUserID: number) => {
         }
         return [...prev, newMsg];
       });
+       if (Number(newMsg.sender_id) === Number(targetUserID) && activeRoomIdRef.current) {
+        socketInstance.emit('mark_as_read', { roomId: activeRoomIdRef.current });
+      }
+    };
+
+    const handleMessagesRead = (data: { roomId: string; userId: string; readAt: string }) => {
+      if (Number(data.userId) === Number(targetUserID)) {
+        setTargetLastReadAt(new Date(data.readAt));
+      }
     };
 
     const handleDisconnect = () => {
@@ -110,22 +151,33 @@ export const useChatMessages = (targetUserID: number) => {
       }
     };
 
+    // اگر سوکت در لحظه ماونت وصل بود، مستقیماً جوین شو
+    if (socketInstance.connected) {
+      handleConnect();
+    }
+
     // Attach Listeners
     socketInstance.on('connect', handleConnect);
     socketInstance.on('joinedRoom', handleJoinedRoom);
     socketInstance.on('newMessage', handleNewMessage);
+    socketInstance.on('messages_read', handleMessagesRead);
     socketInstance.on('disconnect', handleDisconnect);
     socketInstance.on('userTyping', handleUserTyping);
     socketInstance.on('userStatusChanged', handleUserStatusChanged);
 
     // Cleanup
     return () => {
+      if (activeRoomIdRef.current) {
+        socketService.leaveRoom(activeRoomIdRef.current);
+      }
       socketInstance.off('connect', handleConnect);
       socketInstance.off('joinedRoom', handleJoinedRoom);
       socketInstance.off('newMessage', handleNewMessage);
+      socketInstance.off('messages_read', handleMessagesRead);
       socketInstance.off('disconnect', handleDisconnect);
       socketInstance.off('userTyping', handleUserTyping);
       socketInstance.off('userStatusChanged', handleUserStatusChanged);
+       socketService.disconnectChat()
     };
   }, [accessToken, targetUserID]);
 
@@ -151,7 +203,7 @@ export const useChatMessages = (targetUserID: number) => {
           audio: msg.audio,
         }));
 
-        // 🌟 تغییر کلیدی اینجاست: فیلتر کردن پیام‌های تکراری
+        // 🌟 فیلتر کردن پیام‌های تکراری
         setMessages((prev) => {
           const uniqueOlderMessages = formattedOlderMessages.filter(
             (olderMsg) => !prev.some((prevMsg) => prevMsg.id === olderMsg.id)
@@ -166,14 +218,19 @@ export const useChatMessages = (targetUserID: number) => {
       setIsLoadingMore(false);
     }
   }, [activeRoomId, nextCursor, isLoadingMore]);
+
   // --- 4. Callbacks ---
   const joinRoom = useCallback((targetId: number) => {
     if (isConnected) {
+      if (activeRoomId) {
+        socketService.leaveRoom(activeRoomId);
+      }
       setMessages([]);
       setActiveRoomId(null);
+      setTargetLastReadAt(null);
       socketService.joinDirectRoom(targetId);
     }
-  }, [isConnected]);
+  }, [isConnected, activeRoomId]);
 
   const sendMessage = useCallback((content: string) => {
     if (isConnected && activeRoomId) {
@@ -187,7 +244,7 @@ export const useChatMessages = (targetUserID: number) => {
     }
   }, [isConnected, activeRoomId]);
  
-  const sendVoice = useCallback((audioId:string) => {
+  const sendVoice = useCallback((audioId: string) => {
     if (isConnected && activeRoomId) {
       socketService.sendDirectMessage(activeRoomId, '🎤 پیام صوتی', 'AUDIO', undefined, audioId);
     }
@@ -205,15 +262,17 @@ export const useChatMessages = (targetUserID: number) => {
     myUserId,
     activeRoomId,
     targetLastSeen,
+    targetLastReadAt,
     isTargetOnline,
     isTargetTyping,
     nextCursor,
     isLoadingMore,
     joinRoom,
+     targetUser,
     sendMessage,
     sendImage,
     sendVoice,
     emitTyping,
-    loadMoreMessages, // 🌟 اضافه شد
+    loadMoreMessages,
   };
 };

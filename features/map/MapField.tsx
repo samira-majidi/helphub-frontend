@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -10,7 +9,7 @@ const DynamicMapPicker = dynamic(() => import("./MapPicker"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[400px] flex items-center justify-center bg-gray-50 rounded-xl animate-pulse text-gray-400 border border-gray-200">
-      در حال بارگذاری نقشه... 🌍
+      Loading map... 🌍
     </div>
   ),
 });
@@ -21,7 +20,11 @@ interface MapFieldProps<T extends FieldValues> {
   label?: string;
 }
 
-export const MapField = <T extends FieldValues>({ control, name, label = "انتخاب موقعیت روی نقشه" }: MapFieldProps<T>) => {
+export const MapField = <T extends FieldValues>({ 
+  control, 
+  name, 
+  label = "Select location on map" 
+}: MapFieldProps<T>) => {
   return (
     <div className="flex flex-col gap-2 w-full">
       <label className="text-sm font-semibold text-gray-700">{label}</label>
