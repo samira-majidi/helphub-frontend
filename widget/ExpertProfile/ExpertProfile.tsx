@@ -115,7 +115,7 @@ export default function ExpertProfile() {
             <div className="p-4 sm:p-6 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-slate-200 [&::-webkit-scrollbar-thumb]:rounded-full">
               <ExpertProfileForm
                 key={`form-${profile.id}`}
-                expertId={profile.id as any}
+                expertId={String(profile.id)}
                 initialData={profile}
                 onSuccessCallback={() => setIsEditModalOpen(false)}
               />

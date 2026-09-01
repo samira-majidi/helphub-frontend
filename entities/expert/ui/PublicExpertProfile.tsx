@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Star, MapPin, Mail, Calendar, Info, Hash } from 'lucide-react';
+import { Star, MapPin, Mail, Calendar, Info } from 'lucide-react';
 import { useExpertById } from '../hook/useExpertById'; // مسیر رو در صورت نیاز تنظیم کن
 
 interface ExpertProfileProps {

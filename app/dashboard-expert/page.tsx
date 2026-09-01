@@ -4,7 +4,6 @@ import React from "react";
 import { Bell, Settings, Activity } from "lucide-react"; 
 import ExpertProfile from "@/entities/expert/ui/ExpertProfile"; 
 import { ExpertStatusManager } from "@/entities/expert/ui/ExpertStatusManager";
-import RecentConversationsWidget from "@/widget/RecentConversationsWidget/RecentConversationsWidget";
 
 export default function ExpertDashboardPage() {
   return (
@@ -70,11 +69,6 @@ export default function ExpertDashboardPage() {
                   <p className="text-2xl font-black text-amber-500">4.9/5</p>
                 </div>
               </div>
-            </div>
-
-            {/* 👇 Widget 2: استفاده مستقیم از کامپوننت ماژولار */}
-            <div className="h-[400px]"> {/* ارتفاع دلخواهت رو به کانتینر بده */}
-               <RecentConversationsWidget />
             </div>
 
           </div>

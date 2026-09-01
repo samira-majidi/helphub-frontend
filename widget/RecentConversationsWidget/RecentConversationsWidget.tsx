@@ -1,59 +1,64 @@
 'use client';
 
-import { conversationApi } from '@/entities/conversation/Api/conversationApi';
+
+import { useConversations } from '@/entities/conversation/hooks/useConversations';
+import { Conversation } from '@/entities/conversation/type/conversation';
 import { ConversationItem } from '@/entities/conversation/ui/ConversationItem';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 
-export default function RecentConversationsWidget() {
-  const router = useRouter();
+interface Props {
+  activeTargetId?: number | null;
+  onSelectUser: (id: number) => void;
+}
 
-  // ۱. نام متغیر data رو به apiResponse تغییر میدیم تا گیج‌کننده نباشه
-  const { 
-    data: apiResponse, 
-    isLoading, 
-    isError 
-  } = useQuery({
-    queryKey: ['recent-conversations'],
-    queryFn: conversationApi.getConversations,
-  });
+export default function RecentConversationsWidget({ activeTargetId, onSelectUser }: Props) {
 
-  // ۲. استخراج آرایه مکالمات از داخل فیلد data (اگر وجود نداشت یه آرایه خالی میذاریم)
-  const conversationsList = apiResponse?.data || [];
+  const { conversations } = useConversations();
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-6 h-full flex flex-col">
-      <h3 className="text-lg font-bold text-slate-800 mb-4">
-        Recent Conversations
-      </h3>
+    <div className="bg-white h-full flex flex-col">
+      {/* هدر دیزاین */}
+      <div className="p-6 pb-3">
+        <div className="flex justify-between items-center mb-5">
+          <h2 className="text-[22px] font-bold text-gray-900">Messages</h2>
+          <button className="text-gray-400 hover:text-[#1e1b4b] transition-colors">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+          </button>
+        </div>
+
+        {/* سرچ بار */}
+        <div className="relative mb-5">
+          <svg className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+          <input 
+            type="text" 
+            placeholder="Search conversations" 
+            className="w-full bg-gray-50/50 border border-gray-200 text-sm rounded-full py-2.5 pl-11 pr-4 focus:outline-none focus:border-[#1e1b4b] focus:ring-1 focus:ring-[#1e1b4b] transition-all"
+          />
+        </div>
+
+        {/* تب‌ها */}
+        <div className="flex gap-1 text-[13px] font-medium">
+          <button className="bg-[#1e1b4b] text-white px-5 py-1.5 rounded-full shadow-sm">All</button>
+          <button className="text-gray-500 hover:bg-gray-100 px-4 py-1.5 rounded-full transition-colors">Unread</button>
+          <button className="text-gray-500 hover:bg-gray-100 px-4 py-1.5 rounded-full transition-colors">Mentions</button>
+        </div>
+      </div>
       
-      {/* بخش اسکرول‌پذیر برای لیست مکالمات */}
-      <div className="flex-1 overflow-y-auto pr-1 custom-scrollbar">
-        {isLoading ? (
-          <div className="flex items-center justify-center py-8 text-slate-500 animate-pulse">
-            در حال بارگذاری مکالمات... ⏳
-          </div>
-        ) : isError ? (
-          <div className="text-center py-8 text-red-500 bg-red-50 rounded-lg">
-            خطا در دریافت لیست مکالمات! ❌
-          </div>
-        ) : conversationsList.length > 0 ? (
-          <ul className="flex flex-col gap-2">
-            {/* ۳. استفاده از conversationsList به جای conversations */}
-            {/* ۴. اضافه کردن :any برای conv و targetId جهت رفع خطای TypeScript */}
-            {conversationsList.map((conv: any) => (
+      {/* لیست اسکرول‌پذیر */}
+      <div className="flex-1 overflow-y-auto px-4 pb-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+        {conversations && conversations.length > 0 ? (
+          <ul className="flex flex-col gap-1 mt-2">
+            {conversations.map((conv: Conversation) => (
               <ConversationItem 
                 key={conv.id} 
                 conv={conv} 
-                activeRoomId={null} 
-                // هدایت کاربر به صفحه چت با کلیک روی هر آیتم
-               onClick={(targetId: number) => router.push(`/chat/${targetId}`)}
+                isActive={activeTargetId === conv.members?.[0]?.user?.id} 
+                onClick={onSelectUser}
               />
             ))}
           </ul>
         ) : (
-          <div className="text-center py-8 text-slate-500 flex flex-col items-center">
-            <p>No recent conversations yet.</p>
+          <div className="text-center py-8 text-slate-400 text-sm">
+            <p>No conversations found or Loading... ⏳</p>
           </div>
         )}
       </div>

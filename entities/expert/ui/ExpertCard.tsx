@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { 
   CheckCircle2, 
   ChevronDown, 
@@ -14,7 +13,7 @@ import {
   AlignLeft 
 } from "lucide-react";
 import { ExpertProfileData, ExpertAvailabilityStatus } from "../types/experts.types";
-
+import QuickMessageModal from "@/features/chat/ui/QuickMessageModal"; 
 interface ExpertCardProps {
   expert: ExpertProfileData & {
     bio?: string;
@@ -51,7 +50,7 @@ const getStatusConfig = (status?: string) => {
 
 export default function ExpertCard({ expert, distanceKm }: ExpertCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-
+ const [isQuickMsgOpen, setIsQuickMsgOpen] = useState(false);
   const { 
     id, 
     user, 
@@ -74,6 +73,7 @@ export default function ExpertCard({ expert, distanceKm }: ExpertCardProps) {
   const statusConfig = getStatusConfig(availabilityStatus);
 
   return (
+     <>
     <div className="group relative flex w-full flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm transition-all duration-200 hover:border-slate-300 hover:shadow-md sm:p-5">
       
       {/* Top Main Row: Avatar + Info + Status Badge */}
@@ -189,17 +189,26 @@ export default function ExpertCard({ expert, distanceKm }: ExpertCardProps) {
         </div>
       )}
 
-   
-      <div className="mt-4 flex items-center justify-end border-t border-slate-100 pt-4 sm:mt-5">
-        <Link
-           href={`/expert-profile/${id}`}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#f6c72d] px-6 py-2 text-sm font-bold text-[#061c38] shadow-sm transition-colors hover:bg-[#eab308] active:scale-[0.99] sm:w-auto sm:py-2.5"
-        >
-          <MessageCircle size={18} />
-          Chat with Expert
-        </Link>
+     <div className="mt-4 flex items-center justify-end border-t border-slate-100 pt-4 sm:mt-5">
+          <button
+            type="button"
+            onClick={() => setIsQuickMsgOpen(true)}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#f6c72d] px-6 py-2 text-sm font-bold text-[#061c38] shadow-sm transition-colors hover:bg-[#eab308] active:scale-[0.99] sm:w-auto sm:py-2.5 cursor-pointer"
+          >
+            <MessageCircle size={18} />
+            Chat with Expert
+          </button>
+        </div>
+        
+        
       </div>
-      
-    </div>
+  
+   {isQuickMsgOpen && (
+  <QuickMessageModal
+     targetUserID={Number(id)}  // 👈 اولویت حتماً با user.id باشه
+    onClose={() => setIsQuickMsgOpen(false)}
+  />
+)}
+      </>
   );
 }

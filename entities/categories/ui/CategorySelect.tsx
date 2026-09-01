@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCategories } from '../api/categories.api';
+import { ExpertCategory } from '@/entities/expert/types/experts.types';
 
 interface CategorySelectProps {
   value?: number | string;
@@ -20,9 +21,9 @@ export default function CategorySelect({ value, onChange, error }: CategorySelec
     staleTime: 24 * 60 * 60 * 1000, 
   });
 
-  const categoryList = responseData?.data || responseData || [];
+  const categoryList = responseData || responseData || [];
 
-  const selectedCategory = categoryList.find((c: any) => c.id === Number(value));
+  const selectedCategory = categoryList.find((c: ExpertCategory) => c.id === Number(value));
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -54,7 +55,7 @@ export default function CategorySelect({ value, onChange, error }: CategorySelec
 
       {isOpen && (
         <div className="absolute top-full left-0 w-full mt-4 bg-white border border-slate-100 rounded-2xl shadow-xl z-50 overflow-hidden py-2 max-h-60 overflow-y-auto transform origin-top transition-all">
-          {categoryList.map((category: any) => {
+          {categoryList.map((category: ExpertCategory) => {
             const isSelected = Number(value) === category.id;
             
             return (

@@ -9,13 +9,16 @@ export const mapInitialDataToFormValues = (
   
   return {
     categoryId: initialData.category?.id || undefined,
-    location: initialData.location?.lat && initialData.location?.lng
-      ? { lat: initialData.location.lat, lng: initialData.location.lng }
+    // بررسی می‌کنیم که آیا مختصات وجود دارد یا خیر
+    location: initialData.location?.coordinates
+      ? { 
+          lng: initialData.location.coordinates[0], 
+          lat: initialData.location.coordinates[1] 
+        }
       : undefined,
     bio: initialData.bio || '',
   };
 };
-
 
 export const mapFormValuesToPayload = (data: ExpertFormValues): UpdateExpertPayload => ({
   categoryId: data.categoryId,

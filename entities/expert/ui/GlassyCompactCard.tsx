@@ -50,6 +50,7 @@ export const GlassyCompactCard = ({ data }: { data: ExpertData }) => {
         {/* آواتار */}
         <div className="relative h-14 w-14 shrink-0 rounded-full border-2 border-[#f6c72d] bg-slate-200 shadow-sm">
           {data.avatar ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img 
               src={data.avatar} 
               alt={data.user.name} 

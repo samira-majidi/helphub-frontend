@@ -18,7 +18,8 @@ export const useChatMessages = (targetUserID: number) => {
   const [targetLastReadAt, setTargetLastReadAt] = useState<Date | null>(null);
   const [isTargetTyping, setIsTargetTyping] = useState(false);
   const [isTargetOnline, setIsTargetOnline] = useState(false);
-  const [targetUser, setTargetUser] = useState<{ name?: string; avatar?: string } | null>(null);
+  const [targetUser, setTargetUser] = useState<{ name?: string; avatar?: string; role?: string } | null>(null);
+
   // Ref جهت دسترسی به آخرین roomId در زمان cleanup افکت
   const activeRoomIdRef = useRef<string | null>(null);
   // eslint-disable-next-line react-hooks/refs
@@ -96,7 +97,7 @@ export const useChatMessages = (targetUserID: number) => {
         setNextCursor(cursor || null);
         
         if (Array.isArray(historyData)) {
-          const formattedMessages = historyData.map((msg: any) => ({
+          const formattedMessages = historyData.map((msg:ChatMessage) => ({
             id: msg.id,
             content: msg.content,
             created_at: msg.created_at,
@@ -193,7 +194,7 @@ export const useChatMessages = (targetUserID: number) => {
       const newCursor = response.data.data?.nextCursor;
 
       if (Array.isArray(olderHistoryData)) {
-        const formattedOlderMessages = olderHistoryData.map((msg: any) => ({
+        const formattedOlderMessages = olderHistoryData.map((msg: ChatMessage) => ({
           id: msg.id,
           content: msg.content,
           created_at: msg.created_at,

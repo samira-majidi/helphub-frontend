@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react";
-import { useUpdateAvailability } from "../hook/useUpdateAvailability";
+import { useUpdateAvailability} from "../hook/useUpdateAvailability";
 import { ExpertAvailabilityStatus } from "../types/status-type";
 
 interface ExpertStatusManagerProps {

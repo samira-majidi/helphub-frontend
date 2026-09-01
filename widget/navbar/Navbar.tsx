@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation'; 
 import { ChevronDown, Menu, X, User } from 'lucide-react'; 
 import Logo from '@/shared/ui/Logo';
+import ChatNavButton from '@/shared/ui/ChatNavButton';
+
 
 
 interface NavbarProps {
   isLoggedIn?: boolean;
   email?: string | null;
-   name?: string | null; 
+  name?: string | null; 
 }
 
 const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) => {
@@ -21,8 +23,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
     return null; 
   }
 
-   const displayName = name || email || "User";
-
+  const displayName = name || email || "User";
   const initial = (name || email)?.charAt(0).toUpperCase() || null; 
 
   return (
@@ -49,16 +50,22 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
             {/* دکمه‌های سمت راست - دسکتاپ */}
             <div className="hidden lg:flex items-center gap-5">
               {isLoggedIn ? (
-            
-                <div className="flex items-center gap-3 bg-white/5 pl-2 pr-4 py-1.5 rounded-full border border-white/10 transition-all hover:bg-white/10 cursor-pointer">
-                  <div className="w-9 h-9 rounded-full bg-[#FACC15] text-[#0A1E3F] flex items-center justify-center font-bold shadow-sm">
-                    {initial ? initial : <User size={18} strokeWidth={2.5} />}
-                  </div>
-                <span className="text-sm font-semibold text-white max-w-[150px] truncate">
-                    {displayName}
-                  </span>
+                // 🥇 حالت لاگین شده (دسکتاپ)
+                <>
+                  {/* ۲. اضافه شدن دکمه چت برای دسکتاپ */}
+                  <Link href="/chat">
+                    <ChatNavButton />
+                  </Link>
 
-                </div>
+                  <div className="flex items-center gap-3 bg-white/5 pl-2 pr-4 py-1.5 rounded-full border border-white/10 transition-all hover:bg-white/10 cursor-pointer">
+                    <div className="w-9 h-9 rounded-full bg-[#FACC15] text-[#0A1E3F] flex items-center justify-center font-bold shadow-sm">
+                      {initial ? initial : <User size={18} strokeWidth={2.5} />}
+                    </div>
+                  <span className="text-sm font-semibold text-white max-w-[150px] truncate">
+                      {displayName}
+                    </span>
+                  </div>
+                </>
               ) : (
                 // 🚪 حالت مهمان (دسکتاپ)
                 <>
@@ -75,13 +82,22 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
               )}
             </div>
 
-            {/* همبرگر منو */}
-            <button 
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-white hover:text-[#FACC15] transition-colors"
-            >
-              <Menu className="w-7 h-7" />
-            </button>
+            {/* همبرگر منو و دکمه چت موبایل */}
+            <div className="flex items-center gap-2 lg:hidden">
+              {/* ۳. اضافه شدن دکمه چت برای موبایل (کنار همبرگر منو) */}
+              {isLoggedIn && (
+                <Link href="/chats">
+                  <ChatNavButton />
+                </Link>
+              )}
+              
+              <button 
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="p-2 text-white hover:text-[#FACC15] transition-colors"
+              >
+                <Menu className="w-7 h-7" />
+              </button>
+            </div>
           </div>
         </div>
       </header>

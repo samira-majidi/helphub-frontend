@@ -11,13 +11,16 @@ import { useExpertForm } from "../hook/useExpertForm";
 import { ExpertProfileData } from "../types/experts.types";
 
 interface ExpertProfileFormProps {
-  expertId?: number;
+   expertId?: string | number; 
   initialData?: ExpertProfileData;
   onSuccessCallback?: () => void;
 }
 
 export const ExpertProfileForm: React.FC<ExpertProfileFormProps> = (props) => {
-  const { methods, isSubmitting, isEditing, handleUploadSuccess, onSubmit } = useExpertForm(props);
+ const { methods, isSubmitting, isEditing, handleUploadSuccess, onSubmit } = useExpertForm({
+    ...props,
+    expertId: props.expertId ? Number(props.expertId) : undefined 
+  });
   const { control, formState: { errors } } = methods;
   const uploadedImageIds = useWatch({ control, name: "imageIds" });
 
