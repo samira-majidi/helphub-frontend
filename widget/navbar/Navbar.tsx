@@ -36,10 +36,10 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
 
             {/* لینک‌های وسط */}
             <nav className="hidden lg:flex items-center gap-8">
-              <Link href="/services" className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
+              <Link href="/services"   prefetch={false} className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
                 Find Services <ChevronDown className="w-4 h-4 text-gray-400" />
               </Link>
-              <Link href="/professionals" className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
+              <Link href="/professionals"   prefetch={false} className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
                 For Professionals <ChevronDown className="w-4 h-4 text-gray-400" />
               </Link>
               <Link href="/how-it-works" className="text-sm font-medium hover:text-[#FACC15] transition-colors">
@@ -126,8 +126,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
         </div>
 
         <div className="flex flex-col px-5 py-6 gap-6 overflow-y-auto">
-          <Link href="/services" className="text-base font-medium text-white hover:text-[#FACC15]">Find Services</Link>
-          <Link href="/professionals" className="text-base font-medium text-white hover:text-[#FACC15]">For Professionals</Link>
+      
           
           <hr className="border-white/10 my-2" />
 

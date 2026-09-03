@@ -22,8 +22,16 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # بیلد گرفتن از پروژه Next.js
-RUN npm run build
 
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_SOCKET_URL
+ARG NEXT_PUBLIC_APP_NAME
+
+# تبدیل آرگومان‌ها به متغیر محیطی برای Next.js
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+ENV NEXT_PUBLIC_APP_NAME=$NEXT_PUBLIC_APP_NAME
+RUN npm run build
 # ==========================================
 # Stage 3: Production Server
 # ==========================================
