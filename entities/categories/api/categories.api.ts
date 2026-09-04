@@ -12,8 +12,8 @@ export const fetchCategories = (): Promise<CategoryResponse[]> => {
   if (cachedPromise) return cachedPromise;
 
  
-  cachedPromise = api.get<CategoryResponse[]>('/categories')
-    .then(res => res.data)
+  cachedPromise = api.get<{ data: CategoryResponse[] }>('/categories')
+    .then(res => res.data.data)
     .catch(error => {
 
       cachedPromise = null;
