@@ -26,7 +26,7 @@ export const useExpertSearch = (p0: { category: number | undefined; lat: number 
     }),
     enabled: !!location,
     placeholderData: (previousData) => previousData, 
-    select: (response) => response.data,
+   
   });
   
   console.log('🚀 [Expert Search Data]:', experts);

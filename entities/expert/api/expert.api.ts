@@ -27,7 +27,7 @@ export const deleteExpertProfile = async () => {
 };
 export const searchExperts = async (params: SearchExpertsPayload) => {
   const response = await api.get('/experts/search', { params });
-  return response.data.data;
+  return response.data.data.data;
 };
 export const getExpertById = async (id: string) => {
   const response = await api.get(`/experts/${id}`);
