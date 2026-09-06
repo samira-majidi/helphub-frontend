@@ -106,40 +106,134 @@ export default function ExpertSearchForm({
         </div>
       </div>
 
-      {/* مودال نقشه */}
-      {isMapModalOpen && (
-        <div dir="ltr" className="fixed inset-0 z-[60] bg-[#0F172A]/40 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 font-sans transition-all duration-300">
-          <div className="bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] w-full max-w-2xl overflow-hidden flex flex-col transform transition-all border border-slate-100">
-            
-            <div className="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
-              <h3 className="font-bold text-[#0F172A] text-xl">Select your location</h3>
-              <button 
-                onClick={() => setIsMapModalOpen(false)} 
-                className="text-slate-400 hover:text-red-500 bg-slate-50 hover:bg-red-50 rounded-full w-9 h-9 flex items-center justify-center transition-colors"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" strokeWidth={2.5} />
-              </button>
-            </div>
-            
-            <div className="p-4 sm:p-6 bg-[#F9F9F8]">
-              <div className="rounded-xl overflow-hidden shadow-sm border border-slate-200/60 ring-4 ring-white relative z-0">
-                <DynamicMapPicker defaultLocation={location || undefined} onLocationSelect={setLocation} />
-              </div>
-            </div>
-            
-            <div className="px-6 py-5 border-t border-slate-100 bg-white flex justify-end">
-              <button 
-                type="button" 
-                onClick={() => setIsMapModalOpen(false)} 
-                className="px-8 py-3.5 bg-[#FACC15] hover:bg-[#EAB308] text-[#0A1E3F] font-bold rounded-[0.5rem] transition-colors shadow-sm text-[15px]"
-              >
-                Confirm Location
-              </button>
-            </div>
-          </div>
+   {isMapModalOpen && (
+  <div
+    dir="ltr"
+    className="
+      fixed inset-0
+      z-[9999]
+      bg-[#0F172A]/40
+      backdrop-blur-sm
+      flex items-center justify-center
+      p-4
+      sm:p-6
+      pt-[80px]
+      font-sans
+      transition-all duration-300
+    "
+  >
+    <div
+      className="
+        bg-white
+        rounded-2xl
+        shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]
+        w-full
+        max-w-2xl
+        max-h-[calc(100vh-110px)]
+        overflow-hidden
+        flex flex-col
+        transform
+        transition-all
+        border border-slate-100
+      "
+    >
+
+      {/* Header */}
+      <div
+        className="
+          shrink-0
+          px-5 sm:px-6
+          py-4 sm:py-5
+          border-b border-slate-100
+          flex justify-between items-center
+          bg-white
+        "
+      >
+        <h3 className="font-bold text-[#0F172A] text-lg sm:text-xl">
+          Select your location
+        </h3>
+
+        <button
+          type="button"
+          onClick={() => setIsMapModalOpen(false)}
+          className="
+            text-slate-400
+            hover:text-red-500
+            bg-slate-50
+            hover:bg-red-50
+            rounded-full
+            w-9 h-9
+            flex items-center justify-center
+            transition-colors
+            cursor-pointer
+          "
+          aria-label="Close modal"
+        >
+          <X className="w-5 h-5" strokeWidth={2.5} />
+        </button>
+      </div>
+
+      {/* Map */}
+      <div
+        className="
+          p-3
+          sm:p-5
+          bg-[#F9F9F8]
+          overflow-auto
+        "
+      >
+        <div
+          className="
+            rounded-xl
+            overflow-hidden
+            shadow-sm
+            border border-slate-200/60
+            ring-4 ring-white
+            relative z-0
+          "
+        >
+          <DynamicMapPicker
+            defaultLocation={location || undefined}
+            onLocationSelect={setLocation}
+          />
         </div>
-      )}
+      </div>
+
+      {/* Footer */}
+      <div
+        className="
+          shrink-0
+          px-5 sm:px-6
+          py-4 sm:py-5
+          border-t border-slate-100
+          bg-white
+          flex justify-end
+        "
+      >
+        <button
+          type="button"
+          onClick={() => setIsMapModalOpen(false)}
+          className="
+            px-7 sm:px-8
+            py-3
+            bg-[#FACC15]
+            hover:bg-[#EAB308]
+            text-[#0A1E3F]
+            font-bold
+            rounded-[0.5rem]
+            transition-colors
+            shadow-sm
+            text-sm sm:text-[15px]
+            cursor-pointer
+          "
+        >
+          Confirm Location
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
     </>
   );
 }

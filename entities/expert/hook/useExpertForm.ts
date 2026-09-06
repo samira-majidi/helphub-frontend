@@ -8,7 +8,7 @@ import { ExpertFormValues, expertFormSchema } from "../model/expertForm.schema";
 import { mapFormValuesToPayload, mapInitialDataToFormValues } from "../model/mapping-expert-data";
 
 interface UseExpertFormProps {
-  expertId?: number;
+  expertId?:string;
   initialData?: ExpertProfileData;
   onSuccessCallback?: () => void;
 }

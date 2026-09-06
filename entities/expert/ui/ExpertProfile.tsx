@@ -207,29 +207,140 @@ export default function ExpertProfile() {
         </div>
       </div>
 
-      {/* Edit Modal */}
-      {isEditModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-[2.5rem] w-full max-w-3xl max-h-[90vh] overflow-y-auto relative shadow-2xl">
-            <button
-              onClick={() => setIsEditModalOpen(false)}
-              className="absolute top-6 right-6 w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-600 rounded-full transition-colors z-10 cursor-pointer"
-            >
-              ✕
-            </button>
+     {isEditModalOpen && (
+  <div
+    className="
+      fixed inset-0 z-50
+      flex items-center justify-center
+      bg-[#0F172A]/55
+      backdrop-blur-[6px]
+      p-3 sm:p-6
+      animate-in fade-in duration-200
+    "
+    onMouseDown={(e) => {
+      if (e.target === e.currentTarget) {
+        setIsEditModalOpen(false);
+      }
+    }}
+  >
+    <div
+      className="
+        relative
+        w-full
+        max-w-2xl
+        max-h-[92vh]
+        overflow-hidden
+        rounded-[28px]
+        bg-white
+        shadow-[0_25px_80px_rgba(15,23,42,0.25)]
+        border border-white/80
+        animate-in
+        zoom-in-[0.98]
+        slide-in-from-bottom-3
+        duration-200
+      "
+    >
 
-            <div className="p-6 sm:p-8">
-              <ExpertProfileForm 
-                key={`form-${profile.id}`} 
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                expertId={profile.id as any} 
-                initialData={profile} 
-                onSuccessCallback={() => setIsEditModalOpen(false)} 
-              />
-            </div>
+      {/* Modal Header */}
+      <div
+        className="
+          relative z-20
+          flex items-center justify-between
+          px-5 sm:px-8
+          py-4 sm:py-5
+          bg-white/95
+          backdrop-blur-xl
+          border-b border-slate-100
+        "
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <div
+            className="
+              w-10 h-10
+              shrink-0
+              rounded-2xl
+              bg-amber-50
+              border border-amber-100
+              flex items-center justify-center
+              text-amber-500
+            "
+          >
+            <Edit2 className="w-[18px] h-[18px]" />
+          </div>
+
+          <div className="min-w-0">
+            <h2 className="text-base sm:text-lg font-bold text-[#0F172A] truncate">
+              Edit Professional Profile
+            </h2>
+
+            <p className="text-[11px] sm:text-xs text-slate-400 mt-0.5 truncate">
+              Keep your professional information up to date
+            </p>
           </div>
         </div>
-      )}
+
+        <button
+          type="button"
+          onClick={() => setIsEditModalOpen(false)}
+          aria-label="Close modal"
+          className="
+            w-9 h-9
+            shrink-0
+            ml-3
+            rounded-xl
+            flex items-center justify-center
+            text-slate-400
+            bg-slate-50
+            border border-slate-100
+            hover:bg-red-50
+            hover:text-red-500
+            hover:border-red-100
+            transition-all
+            cursor-pointer
+          "
+        >
+          <span className="text-lg leading-none">×</span>
+        </button>
+      </div>
+
+      {/* Scrollable Content */}
+      <div
+        className="
+          max-h-[calc(92vh-81px)]
+          overflow-y-auto
+          overscroll-contain
+
+          px-4 py-5
+          sm:px-8 sm:py-7
+
+          /* Firefox */
+          [scrollbar-width:thin]
+          [scrollbar-color:rgba(251,191,36,0.35)_transparent]
+
+          /* Chrome / Edge / Safari */
+          [&::-webkit-scrollbar]:w-[4px]
+          [&::-webkit-scrollbar-track]:bg-transparent
+          [&::-webkit-scrollbar-thumb]:bg-amber-200/35
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          hover:[&::-webkit-scrollbar-thumb]:bg-amber-300/55
+
+          /* Mobile: hide scrollbar */
+          max-sm:[scrollbar-width:none]
+          max-sm:[&::-webkit-scrollbar]:hidden
+        "
+      >
+        <ExpertProfileForm
+          key={`form-${profile.id}`}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          expertId={profile.id as any}
+          initialData={profile}
+          onSuccessCallback={() => setIsEditModalOpen(false)}
+        />
+      </div>
+
+    </div>
+  </div>
+)}
     </>
   );
 }

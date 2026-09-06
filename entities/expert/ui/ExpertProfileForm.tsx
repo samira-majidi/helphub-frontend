@@ -11,41 +11,21 @@ import { useExpertForm } from "../hook/useExpertForm";
 import { ExpertProfileData } from "../types/experts.types";
 
 interface ExpertProfileFormProps {
-   expertId?: string | number; 
+   expertId?: string;
   initialData?: ExpertProfileData;
   onSuccessCallback?: () => void;
 }
 
 export const ExpertProfileForm: React.FC<ExpertProfileFormProps> = (props) => {
  const { methods, isSubmitting, isEditing, handleUploadSuccess, onSubmit } = useExpertForm({
-    ...props,
-    expertId: props.expertId ? Number(props.expertId) : undefined 
-  });
+   ...props,
+  expertId: props.expertId?.toString(),
+});
   const { control, formState: { errors } } = methods;
   const uploadedImageIds = useWatch({ control, name: "imageIds" });
 
   return (
-    <div className="max-w-2xl mx-auto p-6 md:p-8 bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] my-4 md:my-8 border border-slate-100">
-      
-      {/* Header Section */}
-      <div className="flex items-center gap-4 mb-8">
-        <button
-          type="button"
-          className="p-3 border border-slate-200 rounded-full hover:bg-slate-50 transition-colors flex-shrink-0"
-        >
-          <svg className="w-5 h-5 text-slate-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-        </button>
-        <div>
-          <h2 className="text-2xl font-black text-[#0F172A]">
-            {isEditing ? "Edit Professional Profile" : "Create Expert Profile"}
-          </h2>
-          <p className="text-sm text-slate-500 mt-1">
-            Enhance your profile to attract more potential clients.
-          </p>
-        </div>
-      </div>
+ <div className="w-full">
 
       <form onSubmit={onSubmit} className="space-y-8">
         {/* Category Field */}
@@ -150,13 +130,30 @@ export const ExpertProfileForm: React.FC<ExpertProfileFormProps> = (props) => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-4 mt-6 bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-lg rounded-2xl shadow-[0_8px_20px_rgba(15,23,42,0.15)] transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+         className="
+  w-full
+  h-12
+  mt-2
+  bg-[#0F172A]
+  hover:bg-slate-800
+  text-white
+  font-semibold
+  text-sm
+  rounded-2xl
+  shadow-[0_8px_20px_rgba(15,23,42,0.12)]
+  transition-all
+  active:scale-[0.99]
+  disabled:opacity-60
+  disabled:cursor-not-allowed
+  flex items-center justify-center gap-2
+  cursor-pointer
+"
         >
-          {isSubmitting
-            ? "Applying Changes..."
-            : isEditing
-            ? "Save Profile Changes ✨"
-            : "Submit Expert Details ✨"}
+         {isSubmitting
+  ? "Saving changes..."
+  : isEditing
+  ? "Save Changes"
+  : "Create Profile"}
         </button>
       </form>
     </div>

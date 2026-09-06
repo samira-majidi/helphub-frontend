@@ -2,10 +2,13 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; 
+import { usePathname, useRouter } from 'next/navigation'; 
 import { ChevronDown, Menu, X, User } from 'lucide-react'; 
 import Logo from '@/shared/ui/Logo';
 import ChatNavButton from '@/shared/ui/ChatNavButton';
+import { useIsLoggedIn } from '@/features/auth/hooks/useIsLoggedIn';
+import { BecomeExpertModal } from '@/shared/ui/BecomeExpertModal';
+import DashboardNavbar from './DashboardNavbar';
 
 
 
@@ -18,14 +21,26 @@ interface NavbarProps {
 const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname(); 
-
-  if (pathname === '/sign-up') {
+ const { isExpert, hydrated } = useIsLoggedIn();
+  const [isModalOpen, setIsModalOpen] = useState(false); // 5. استیت برای کنترل مودال
+   
+    if (pathname === '/sign-up' || pathname.startsWith('/chat')) {
     return null; 
   }
+    if (pathname === '/dashboard-expert') {
+    return <DashboardNavbar />;
+  }
+
+   
 
   const displayName = name || email || "User";
   const initial = (name || email)?.charAt(0).toUpperCase() || null; 
-
+ const handleProfessionalClick = (e: React.MouseEvent) => {
+    if (!isExpert) {
+      e.preventDefault(); // جلوی رفتار پیش‌فرض لینک رو می‌گیریم
+      setIsModalOpen(true); // مودال رو باز می‌کنیم
+    }
+  };
   return (
     <>
       <header className="w-full bg-[#0A1E3F] text-white relative z-50 ">
@@ -38,10 +53,20 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
             <nav className="hidden lg:flex items-center gap-8">
               <Link href="/services"   prefetch={false} className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
                 Find Services <ChevronDown className="w-4 h-4 text-gray-400" />
-              </Link>
-              <Link href="/professionals"   prefetch={false} className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors">
-                For Professionals <ChevronDown className="w-4 h-4 text-gray-400" />
-              </Link>
+                          </Link>
+
+             <Link 
+            href="/dashboard-expert" 
+            onClick={handleProfessionalClick}
+            prefetch={false}
+            className="flex items-center gap-1 text-sm font-medium hover:text-[#FACC15] transition-colors"
+          >
+               {isExpert ? 'My Dashboard' : 'For Professionals'}
+
+{isExpert && (
+  <ChevronDown className="w-4 h-4 text-gray-400" />
+)}
+          </Link>
               <Link href="/how-it-works" className="text-sm font-medium hover:text-[#FACC15] transition-colors">
                 How It Works
               </Link>
@@ -53,7 +78,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
                 // 🥇 حالت لاگین شده (دسکتاپ)
                 <>
                   {/* ۲. اضافه شدن دکمه چت برای دسکتاپ */}
-                  <Link href="/chat">
+                  <Link href="/chats">
                     <ChatNavButton />
                   </Link>
 
@@ -161,6 +186,10 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
           </div>
         </div>
       </div>
+      <BecomeExpertModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </>
   );
 };

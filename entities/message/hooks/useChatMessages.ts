@@ -165,7 +165,9 @@ export const useChatMessages = (targetUserID: number) => {
     socketInstance.on('disconnect', handleDisconnect);
     socketInstance.on('userTyping', handleUserTyping);
     socketInstance.on('userStatusChanged', handleUserStatusChanged);
-
+if (socketInstance.connected) {
+  handleConnect();
+}
     // Cleanup
     return () => {
       if (activeRoomIdRef.current) {

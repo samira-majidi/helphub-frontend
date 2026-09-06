@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import api from '@/shared/services/Api';
 import { useAuthStore } from '@/session/useAuthStore';
+import { Conversation } from '../type/conversation';
 
 export const useConversations = () => {
-  const [conversations, setConversations] = useState<any[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
   const accessToken = useAuthStore((state) => state.accessToken);
 
   useEffect(() => {

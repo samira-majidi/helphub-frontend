@@ -19,7 +19,12 @@ export default function QuickMessageModal({ targetUserID, onClose }: QuickMessag
     isConnected,
     activeRoomId
   } = useChatController(targetUserID);
-
+console.log('QUICK MESSAGE:', {
+  isConnected,
+  activeRoomId,
+  inputValue,
+  targetUserID,
+});
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col h-[500px]">

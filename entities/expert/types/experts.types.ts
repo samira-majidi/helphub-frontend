@@ -9,8 +9,9 @@ export interface ExpertLocation {
 }
 
 export interface ExpertUser {
-  name?: string;       // <--- اضافه شد (چون بک‌اند name میده)
-  firstName?: string;  // اختیاری شد
+   id: number;
+  name?: string;     
+  firstName?: string;  
   lastName: string;
   email: string;
 }
