@@ -4,7 +4,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import CategorySelect from '@/entities/categories/ui/CategorySelect';
 import { LocationCoords } from '@/features/map/MapPicker';
-import { Search, MapPin, ChevronDown, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
+import { Search, MapPin, ChevronDown, SlidersHorizontal} from 'lucide-react';
 
 const DynamicMapPicker = dynamic(() => import('@/features/map/MapPicker'), {
   ssr: false,

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import CategorySelect from '@/entities/categories/ui/CategorySelect';
 import { LocationCoords } from '@/features/map/MapPicker';
 import { MapPin, LayoutGrid, X } from 'lucide-react';
-
+import { toast } from 'react-hot-toast';
 const DynamicMapPicker = dynamic(() => import('@/features/map/MapPicker'), {
   ssr: false,
   loading: () => <div className="h-[400px] bg-gray-50 animate-pulse rounded-xl flex items-center justify-center text-gray-400 font-sans">Loading map... 🌍</div>,
@@ -30,6 +30,24 @@ export default function ExpertSearchForm({
   setIsMapModalOpen,
   onSearch // 👈 اضافه شد
 }: ExpertSearchFormProps) {
+  const handleSearch = () => {
+  if (!categoryId && !location) {
+    toast.error('Please select a category and location.');
+    return;
+  }
+
+  if (!categoryId) {
+    toast.error('Please select a category.');
+    return;
+  }
+
+  if (!location) {
+    toast.error('Please select your location.');
+    return;
+  }
+
+  onSearch();
+};
   return (
     <>
       <div className="font-sans w-full max-w-[50rem] mr-auto relative z-10">
@@ -64,7 +82,7 @@ export default function ExpertSearchForm({
 
           <button
             type="button"
-            onClick={onSearch} // 👈 اضافه شد
+            onClick={handleSearch}
             className="bg-[#FACC15] hover:bg-[#EAB308] text-[#0A1E3F] font-bold px-8 py-3.5 rounded-[0.5rem] transition-colors whitespace-nowrap text-[15px]"
           >
             Find pros
@@ -98,7 +116,7 @@ export default function ExpertSearchForm({
 
             <button
               type="button"
-              onClick={onSearch} // 👈 اضافه شد
+              onClick={handleSearch}
               className="w-full bg-[#FACC15] hover:bg-[#EAB308] text-[#0A1E3F] font-bold py-3.5 rounded-[0.5rem] transition-colors text-[15px]"
             >
               Find pros

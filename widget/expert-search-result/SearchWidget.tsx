@@ -28,7 +28,7 @@ export function SearchWidget() {
 
     const queryString = params.toString();
     
-    // اگر پارامتری وجود داشت با علامت سوال اضافه می‌شه، در غیر این صورت فقط مسیر اصلی
+
     const url = queryString ? `/result-page?${queryString}` : '/result-page';
     
     console.log("Navigating to:", url);
