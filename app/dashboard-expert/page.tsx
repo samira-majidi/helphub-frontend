@@ -12,7 +12,7 @@ export default function ExpertDashboardPage() {
       <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
         
         {/* === ردیف اول: هدر اصلی (فول ویدث) === */}
-        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 sm:px-8 rounded-2xl border border-gray-100 shadow-sm w-full">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 sm:px-8 rounded-2xl border border-gray-100 shadow-sm w-full">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
               Expert Dashboard <span className="text-xl">✨</span>
@@ -21,9 +21,12 @@ export default function ExpertDashboardPage() {
               Manage your professional presence and track your activity.
             </p>
           </div>
-          <div className="flex items-center gap-6">
+          
+          <div className="flex items-center gap-6 mt-2 sm:mt-0">
             <ExpertStatusManager />
-            <div className="flex items-center gap-3 border-l border-gray-100 pl-6">
+            
+            {/* 👇 با کلاس hidden sm:flex این قسمت در موبایل کلاً حذف میشه */}
+            <div className="hidden sm:flex items-center gap-3 border-l border-gray-100 pl-6">
               <button className="p-2 text-gray-400 hover:text-gray-600 bg-white hover:bg-gray-50 rounded-full border border-gray-100 transition-all shadow-sm">
                 <Bell size={18} />
               </button>
@@ -46,9 +49,13 @@ export default function ExpertDashboardPage() {
           <section className="lg:col-span-8 flex flex-col gap-6">
             
             {/* ردیف کارت‌های آمار */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                       {/* ردیف کارت‌های آمار */}
+            {/* تغییرات: استفاده از flex و overflow-x-auto برای موبایل و بازگشت به grid در md */}
+            <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 md:grid md:grid-cols-3 md:pb-0 md:overflow-visible [&::-webkit-scrollbar]:hidden">
+              
               {/* Stat Card 1: Total Views */}
-              <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+              {/* تغییرات: اضافه شدن min-w-[260px] md:min-w-0 shrink-0 snap-center */}
+              <div className="min-w-[260px] md:min-w-0 snap-center shrink-0 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <h3 className="text-sm font-bold text-gray-800 mb-4">Total Views</h3>
                 <div className="flex items-end justify-between">
                   <div>
@@ -64,7 +71,7 @@ export default function ExpertDashboardPage() {
               </div>
 
               {/* Stat Card 2: New Messages */}
-              <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+              <div className="min-w-[260px] md:min-w-0 snap-center shrink-0 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                   <h3 className="text-sm font-bold text-gray-800 mb-4">New Messages</h3>
                   <div className="flex items-end justify-between">
                     <div>
@@ -78,7 +85,7 @@ export default function ExpertDashboardPage() {
               </div>
 
               {/* Stat Card 3: Profile Rating */}
-              <div className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
+              <div className="min-w-[260px] md:min-w-0 snap-center shrink-0 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <h3 className="text-sm font-bold text-gray-800 mb-4">Profile Rating</h3>
                 <div className="flex items-end justify-between">
                   <div>
@@ -93,7 +100,9 @@ export default function ExpertDashboardPage() {
                   </div>
                 </div>
               </div>
+              
             </div>
+
             
             {/* ویجت لیست پیام‌ها با عنوان */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">

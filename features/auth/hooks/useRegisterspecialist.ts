@@ -23,8 +23,8 @@ export const useRegisterSpecialist  = ({ onSuccess }: UseRegisterHostProps = {})
 
     try {
       const response = await registerSpecialistApi(payload);
-      
-      const token = response.data.accesstoken;
+      console.log(response)
+      const token = response.data?.accesstoken;
       if (token) {
         setToken(token);
       }

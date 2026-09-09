@@ -58,7 +58,7 @@ console.log('QUICK MESSAGE:', {
             <div className="h-full flex flex-col items-center justify-center text-center px-6 text-slate-500">
               <span className="text-2xl mb-2">📋</span>
               <p className="text-xs font-medium leading-relaxed">
-                برای هماهنگی سریع‌تر، نوع درخواست، زمان مدنظر و بودجه یا بازه قیمت پیشنهادی خود را ارسال کنید.
+                To coordinate faster, please send your request type, preferred time, and budget or proposed price range.
               </p>
             </div>
           ) : (
