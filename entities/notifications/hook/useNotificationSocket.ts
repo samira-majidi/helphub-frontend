@@ -17,7 +17,6 @@ export const useNotificationSocket = () => {
 
     const socket = socketService.connectNotification(token);
 
-    // بررسی وضعیت واقعی اتصال
     socket.on('connect', () => {
       console.log('✅ Notification Socket FULLY CONNECTED! ID:', socket.id);
     });
@@ -49,7 +48,7 @@ export const useNotificationSocket = () => {
 
     return () => {
       if (socketService.notificationSocket) {
-        // تمیزکاری لیسنرها
+      
         socketService.notificationSocket.off('connect');
         socketService.notificationSocket.off('connect_error');
         socketService.notificationSocket.off('newNotification');

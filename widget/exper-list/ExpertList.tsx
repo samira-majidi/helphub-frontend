@@ -33,10 +33,10 @@ export default function ExpertList({ experts, isFetching, isError, refetch }: Ex
   }
 
   return (
-    // تغییر ۱: اضافه شدن max-lg:h-auto و lg:h-full
+    
     <div className="flex max-lg:h-auto lg:h-full w-full flex-col font-sans">
       
-      {/* تغییر ۲: اضافه شدن max-lg:overflow-visible و lg:overflow-y-auto */}
+   
       <div className="relative flex-1 min-h-0 max-lg:overflow-visible lg:overflow-y-auto custom-scrollbar pr-2 pb-4">
         <div className="flex flex-col gap-4">
           {experts?.map((expert: ExpertProfileData) => (

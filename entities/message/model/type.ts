@@ -3,11 +3,11 @@ export interface ChatMessage {
   sender_id: number;
   content?: string;
   
-  // آیدی فایل‌ها
+
   imageId?: string | number;
   audioId?: string | number; 
   
-  // اضافه شدن تایپ AUDIO
+
   type?: 'TEXT' | 'IMAGE' | 'AUDIO'; 
   
   created_at?: string;

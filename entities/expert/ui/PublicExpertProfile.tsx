@@ -3,17 +3,17 @@
 import React from 'react';
 import Image from 'next/image';
 import { Star, MapPin, Mail, Calendar, Info } from 'lucide-react';
-import { useExpertById } from '../hook/useExpertById'; // مسیر رو در صورت نیاز تنظیم کن
+import { useExpertById } from '../hook/useExpertById'; 
 
 interface ExpertProfileProps {
   expertId: string;
 }
 
 const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
-  // واکشی دیتا با استفاده از هوک
+
   const { data: expert, isLoading, isError } = useExpertById(expertId);
 
-  // ۱. هندل کردن حالت لودینگ (کمی استایل دادیم که شیک‌تر بشه)
+
   if (isLoading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
@@ -25,7 +25,7 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
     );
   }
 
-  // ۲. هندل کردن حالت خطا
+
   if (isError) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center p-4">
@@ -36,7 +36,7 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
     );
   }
 
-  // ۳. هندل کردن حالتی که دیتایی پیدا نشده
+
   if (!expert) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center p-4">
@@ -47,9 +47,9 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
     );
   }
 
-  // -- از اینجا به بعد دیتا با موفقیت لود شده --
 
-  // فرمت تاریخ عضویت
+
+  
   const joinedDate = expert.createdAt
     ? new Date(expert.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -58,7 +58,7 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
       })
     : 'Unknown';
 
-  // استایل‌دهی وضعیت
+
   const getStatusColor = (status?: string) => {
     switch (status) {
       case 'available': return 'bg-green-400 shadow-[0_0_8px_rgba(74,222,128,0.6)]';
@@ -68,20 +68,20 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
     }
   };
 
-  // استخراج حرف اول نام برای زمانی که آواتار وجود نداره
+
   const initial = expert.user?.name ? expert.user.name.charAt(0).toUpperCase() : '?';
 
   return (
     <div className="mx-auto flex max-w-4xl items-center justify-center p-6">
       
-      {/* کانتینر اصلی با افکت شیشه‌ای سرمه‌ای */}
+ 
       <div className="relative w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#061c38]/20 bg-[#061c38]/90 p-6 text-white shadow-2xl backdrop-blur-xl">
         
-        {/* هدر کارت: عکس و اطلاعات اصلی */}
+      
         <div className="flex items-center gap-4 border-b border-white/10 pb-5">
-          {/* آواتار با Next/Image */}
+     
            <div className="relative h-16 w-16 shrink-0 rounded-full border-2 border-[#f6c72d] bg-slate-200 shadow-sm">
-            {/* شرط سخت‌گیرانه‌تر برای جلوگیری از پاس داده شدن آبجکت */}
+         
             {typeof expert.avatar === 'string' && expert.avatar.trim() !== '' ? (
               <Image 
                 src={expert.avatar} 
@@ -96,10 +96,10 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
                 {initial}
               </div>
             )}
-            {/* نشانگر وضعیت */}
+    
             <div className={`absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-[#061c38] ${getStatusColor(expert.availabilityStatus)}`} />
           </div>
-          {/* نام و دسته‌بندی */}
+    
           <div className="flex-1 overflow-hidden">
             <h3 className="truncate text-xl font-bold">
               {expert.user?.name} {expert.user?.lastName}
@@ -114,7 +114,7 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
           </div>
         </div>
 
-        {/* بدنه کارت: بیو و ایمیل */}
+
         <div className="py-7 text-sm">
           <div className="mt-1 flex items-center gap-4">
               <span className="rounded bg-[#f6c72d]/20 px-8 py-1.5 text-[10px] font-bold tracking-wider text-[#f6c72d] mb-3">
@@ -133,10 +133,10 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
           
         </div>
 
-        {/* اطلاعات تکمیلی (فشرده و جمع‌وجور در یک گرید) */}
+      
         <div className="mt-2 rounded-xl bg-black/30 p-4 text-xs text-gray-300">
           <div className="grid grid-cols-2 gap-3">
-            {/* لوکیشن */}
+     
             <div className="flex items-center gap-1.5">
               <MapPin size={14} className="shrink-0 text-white/60" />
               <span className="truncate">
@@ -145,12 +145,12 @@ const ExpertProfile: React.FC<ExpertProfileProps> = ({ expertId }) => {
                   : 'N/A'}
               </span>
             </div>
-            {/* تاریخ عضویت */}
+           
             <div className="flex items-center gap-1.5">
               <Calendar size={14} className="shrink-0 text-white/60" />
               <span className="truncate">{joinedDate}</span>
             </div>
-            {/* نقش کاربر */}
+  
             <div className="flex items-center gap-1.5">
               <Info size={14} className="shrink-0 text-white/60" />
               <span className="truncate uppercase">Role: {expert.user?.role || 'N/A'}</span>

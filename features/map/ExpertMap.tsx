@@ -24,7 +24,7 @@ const getExpertCoords = (expert: ExpertProfileData): MapCoords | null => {
   };
 };
 
-// کامپوننت Container (Smart)
+
 const ExpertsMapContainer: React.FC<ExpertsMapProps> = ({ experts, userLocation }) => {
   
   const mapMarkers: MapMarkerData[] = experts.reduce((acc, expert) => {
@@ -33,7 +33,7 @@ const ExpertsMapContainer: React.FC<ExpertsMapProps> = ({ experts, userLocation 
     if (coords) {
       const firstName = expert.user?.firstName || expert.user?.name || '';
       const lastName = expert.user?.lastName || '';
-      // تبدیل پیام فارسی به انگلیسی
+
       const expertName = expert.user 
         ? `${firstName} ${lastName}`.trim() 
         : 'Unknown Expert';

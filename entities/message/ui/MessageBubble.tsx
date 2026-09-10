@@ -5,7 +5,7 @@ import { VoicePlayer } from '@/features/chat/ui/voicePlayer';
 interface MessageBubbleProps {
   msg: ChatMessage;
   isMe: boolean;
-  isRead?: boolean; // 👈 ۱. اضافه شدن پراپ isRead
+  isRead?: boolean; 
 }
  
 export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps) {
@@ -25,7 +25,7 @@ export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps)
           : 'self-start bg-white border border-gray-100 text-gray-800 rounded-tl-none'
       }`}
     >
-      {/* ویس */}
+
       {msg.type === 'AUDIO' ? (
         <div className="flex flex-col gap-3.5">
         {msg.audio?.path ? (
@@ -35,7 +35,7 @@ export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps)
 )}
         </div>
       )
-      // عکس
+   
       : msg.type === 'IMAGE' || msg.image ? (
         <div className="flex flex-col">
           {msg.image?.path ? (
@@ -50,12 +50,11 @@ export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps)
           )}
         </div>
       ) 
-      // متن
+   
       : (
         <p className="text-[15px] break-words leading-relaxed whitespace-pre-wrap">{msg.content}</p>
       )}
 
-           {/* بخش زمان و وضعیت تیک‌ها */}
       {timeString && (
         <div className="flex items-center gap-1.5 mt-2 self-end select-none">
           <span 
@@ -66,11 +65,11 @@ export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps)
             {timeString}
           </span>
           
-          {/* ✨ وضعیت تیک فقط برای پیام‌های ارسالی کاربر */}
+   
           {isMe && (
             <div className="flex items-center">
               {isRead ? (
-                // 🌟 دوتیک شیک و تفکیک‌شده (خوانده شده)
+             
                 <div className="flex items-center -space-x-1.5 text-[#fbc02d]">
                   <svg className="w-3.5 h-3.5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -80,7 +79,7 @@ export function MessageBubble({ msg, isMe, isRead = false }: MessageBubbleProps)
                   </svg>
                 </div>
               ) : (
-                // 🌟 تک‌تیک استاندارد (ارسال شده)
+            
                 <div className="text-slate-300/70">
                   <svg className="w-3.5 h-3.5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />

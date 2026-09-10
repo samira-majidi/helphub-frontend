@@ -13,7 +13,7 @@ export function SearchWidget() {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
 
   const handleSearch = () => {
-    // استفاده از URLSearchParams برای ساخت تمیز Query String
+ 
     const params = new URLSearchParams();
 
     if (categoryId) {
@@ -21,7 +21,7 @@ export function SearchWidget() {
     }
 
     if (location) {
-      // فرض بر این است که LocationCoords شامل ویژگی‌های lat و lng است
+      
       params.append('lat', location.lat.toString());
       params.append('lng', location.lng.toString());
     }

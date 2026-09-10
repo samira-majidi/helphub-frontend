@@ -16,15 +16,14 @@ import {
 
 export default function ServicesCover() {
   const scrollRef = useRef<HTMLDivElement>(null);
-  // استیت برای نگه‌داشتن ایندکس آیتمی که در موبایل وسط/فعال است
+
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // === سیستم تشخیص آیتم وسط (برای موبایل) ===
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
 
-    // از IntersectionObserver استفاده می‌کنیم تا ببینیم کدوم آیتم بیشتر تو دید هست
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -36,18 +35,17 @@ export default function ServicesCover() {
       },
       {
         root: container,
-        threshold: 0.8, // وقتی ۸۰ درصد آیتم تو دید بود فعال بشه
+        threshold: 0.8, 
       }
     );
 
-    // به همه آیتم‌ها آبزرور رو وصل می‌کنیم
     const children = container.querySelectorAll('.carousel-item');
     children.forEach((child) => observer.observe(child));
 
     return () => observer.disconnect();
   }, []);
 
-  // === سیستم حرکت خودکار در موبایل ===
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (scrollRef.current) {
@@ -94,7 +92,7 @@ export default function ServicesCover() {
             Whatever you need,<br />start with a search.
           </h2>
           <p className="text-slate-600 text-sm md:text-lg px-4">
-            Describe the job and we'll connect you with the right local professional.
+            Describe the job and we will connect you with the right local professional.
           </p>
         </div>
 
@@ -104,7 +102,7 @@ export default function ServicesCover() {
         >
           {services.map((service, index) => {
             const Icon = service.icon;
-            // کلاس فعال بودن: تو موبایل اگر activeIndex باشه سرمه‌ای کمرنگ میده، تو دسکتاپ هاور عادی کار میکنه
+
             const isActiveMobile = activeIndex === index;
             
             return (
@@ -130,7 +128,7 @@ export default function ServicesCover() {
           })}
         </div>
 
-        {/* ... بقیه کد (Trust Signals Banner) تغییری نکرده ... */}
+      
         <div className="bg-transparent border border-gray-200 rounded-2xl p-4 md:p-6 lg:p-0 flex flex-col lg:flex-row items-center justify-between shadow-sm">
           
           <div className="flex items-center gap-3 md:gap-4 p-2 md:p-6 w-full lg:w-1/3">

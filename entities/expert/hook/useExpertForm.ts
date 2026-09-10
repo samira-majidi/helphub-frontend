@@ -19,7 +19,7 @@ export const useExpertForm = ({ expertId, initialData, onSuccessCallback }: UseE
   
   const isEditing = Boolean(expertId);
 
-  // فرم فقط مقادیر تمیز رو دریافت می‌کنه
+
   const methods = useForm<ExpertFormValues>({
     resolver: zodResolver(expertFormSchema),
     defaultValues: mapInitialDataToFormValues(initialData),
@@ -33,14 +33,14 @@ export const useExpertForm = ({ expertId, initialData, onSuccessCallback }: UseE
         shouldValidate: true,
         shouldDirty: true,
       });
-      toast.success("عکس با موفقیت آپلود و اضافه شد! 📸");
+         toast.success("Image uploaded and added successfully! 📸");
     }
   };
 
   const onSubmit = async (data: ExpertFormValues) => {
-    // تبدیل تمیز دیتا به پی‌لود
+
     const payload = mapFormValuesToPayload(data);
-console.log("🚀 Payload for Backend:", JSON.stringify(payload, null, 2)); // اینو اضافه کن تا دیتا رو مرتب ببینی
+console.log("🚀 Payload for Backend:", JSON.stringify(payload, null, 2));
   
     if (isEditing) {
       await updateExpert(payload);

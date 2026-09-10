@@ -12,11 +12,11 @@ export const useConversations = () => {
 
     const fetchConversations = async () => {
       try {
-        // ببین چقدر تمیز شد! نیازی به هدر و توکن نیست، اینترسپتور خودش هندل می‌کنه
+
         const response = await api.get('/chat/conversations');
         setConversations(response.data?.data || response.data || []);
       } catch (error) {
-        console.error('دریافت گفتگوها ناموفق:', error);
+        console.error('erorr in getting conversation', error);
       }
     };
 

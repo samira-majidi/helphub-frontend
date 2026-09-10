@@ -18,7 +18,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
   return (
     <div className="flex flex-col w-full bg-transparent p-0">
       
-      {/* هدر فرم */}
+  
       <div className="text-center mb-6">
         <h2 className="text-white text-[26px] font-semibold mb-2">Welcome back</h2>
         <p className="text-[#94A3B8] text-[15px]">Sign in to continue to your account</p>
@@ -32,7 +32,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
 
       <form onSubmit={handleSignIn} className="flex flex-col gap-4">
         
-        {/* فیلد ایمیل */}
+   
         <div className="flex flex-col gap-1.5">
           <label className="text-white text-[13px] font-semibold">Email</label>
           <div className="relative">
@@ -51,7 +51,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
           </div>
         </div>
 
-        {/* فیلد پسورد */}
+    
         <div className="flex flex-col gap-1.5">
           <label className="text-white text-[13px] font-semibold">Password</label>
           <div className="relative">
@@ -76,7 +76,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
           </div>
         </div>
 
-        {/* سوییچ Remember me و Forgot Password */}
+      
         <div className="flex items-center justify-between mt-1">
           <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => setRememberMe(!rememberMe)}>
             <div className={`w-8 h-[18px] rounded-full flex items-center p-0.5 transition-colors ${rememberMe ? 'bg-yellow-400' : 'bg-gray-600'}`}>
@@ -87,7 +87,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
           <a href="#" className="text-yellow-400 text-[13px] hover:text-yellow-300 transition-colors">Forgot password?</a>
         </div>
 
-        {/* دکمه ورود */}
+       
         <button 
           type="submit" 
           disabled={loading}
@@ -98,7 +98,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
 
       </form>
 
-      {/* جداکننده Social */}
+  
       <div className="relative mt-6 mb-5">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-white/10"></div>
@@ -108,7 +108,7 @@ export const SignInForm = ({ onSuccess }: SignInFormProps) => {
         </div>
       </div>
 
-      {/* دکمه‌های Google و Apple */}
+  
       <div className="flex gap-3">
         <button type="button" className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 bg-transparent hover:bg-white/5 transition-colors text-white text-[14px] font-medium">
           <svg className="w-[18px] h-[18px]" viewBox="0 0 24 24">

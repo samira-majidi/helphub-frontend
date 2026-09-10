@@ -26,7 +26,7 @@ export interface ExpertProfileData {
     coordinates: [number, number]; 
   };
   avatarUrl?: string;
-  avatar?: { path: string }; // <--- اضافه شد (برای دریافت مسیر عکس از بک‌اند)
+  avatar?: { path: string };
   user?: ExpertUser;
   images?: { id: number; url?: string }[];
 }

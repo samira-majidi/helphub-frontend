@@ -34,7 +34,7 @@ class SocketService {
     return this.notificationSocket;
   }
 
-  // ✨ بهبود: تفکیک قطع اتصال سوکت چت
+
   disconnectChat() {
     if (this.socket) {
       this.socket.disconnect();
@@ -48,7 +48,7 @@ class SocketService {
     }
   }
 
-  // ✨ بهبود: تفکیک قطع اتصال سوکت نوتیفیکیشن
+
   disconnectNotification() {
     if (this.notificationSocket) {
       this.notificationSocket.disconnect();
@@ -56,16 +56,13 @@ class SocketService {
     }
   }
 
-  // قطع تمام اتصالات (مناسب برای زمان Logout شدن کاربر)
+
   disconnect() {
     this.disconnectChat();
     this.disconnectNotification();
     this.disconnectExpert(); 
   }
 
-  // ==========================================
-  // متدهای مربوط به چت
-  // ==========================================
   joinDirectRoom(targetUserId: number) {
     this.socket?.emit('joinDirectRoom', { targetUserId });
   }

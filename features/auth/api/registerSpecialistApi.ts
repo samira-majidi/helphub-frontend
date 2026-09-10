@@ -23,7 +23,7 @@ export const registerSpecialistApi = async (payload: RegisterPayload): Promise<R
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      // در صورت وجود پیام خطای مشخص از بک‌اند، همان را برمی‌گرداند
+    
       const errorMessage = error.response?.data?.message || 'Specialist registration failed!';
       throw new Error(errorMessage);
     }

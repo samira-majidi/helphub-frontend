@@ -5,8 +5,6 @@ import { MapContainer, TileLayer, Marker, Tooltip, useMap, ZoomControl } from "r
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// ----------------- تنظیمات آیکون‌های اختصاصی -----------------
-// آیکون کاربر (پین سرمه‌ای رنگ)
 const userIcon = new L.DivIcon({
   className: "bg-transparent border-none",
   html: `
@@ -24,7 +22,6 @@ const userIcon = new L.DivIcon({
   iconAnchor: [30, 45],
 });
 
-// آیکون متخصصین (پین زرد رنگ شیک و ساده بدون آیکون شغل)
 const expertIcon = new L.DivIcon({
   className: "bg-transparent border-none",
   html: `
@@ -85,7 +82,7 @@ const MapBoundsManager: React.FC<{ markers: MapMarkerData[]; userLocation?: MapC
   return null;
 };
 
-// کامپوننت اصلی نمایشی
+
 export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({ 
   markers, 
   userLocation, 
@@ -93,7 +90,7 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
 }) => {
   return (
     <>
-      {/* استایل‌های درون‌خطی برای نوت (Tooltip) سرمه‌ای */}
+
       <style>{`
         .navy-tooltip {
           background-color: #0A1E3F !important;
@@ -103,7 +100,7 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
           border-radius: 8px !important;
           padding: 0 !important;
         }
-        /* تغییر رنگ فلشِ زیر نوت به سرمه‌ای */
+    
         .leaflet-tooltip-top.navy-tooltip::before {
           border-top-color: #0A1E3F !important;
         }
@@ -114,7 +111,7 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
           center={[defaultCenter.lat, defaultCenter.lng]}
           zoom={13}
           scrollWheelZoom={true}
-          zoomControl={false} // حذف زوم پیش‌فرض برای تغییر جایگاه
+          zoomControl={false}
           style={{ height: "100%", width: "100%", zIndex: 1 }}
         >
         <TileLayer
@@ -122,12 +119,12 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 />
           
-          {/* دکمه‌های زوم در پایین سمت راست */}
+   
           <ZoomControl position="bottomright" />
 
           <MapBoundsManager markers={markers} userLocation={userLocation} />
 
-          {/* مارکر کاربر */}
+    
           {userLocation && (
             <Marker position={[userLocation.lat, userLocation.lng]} icon={userIcon}>
               <Tooltip 
@@ -143,10 +140,10 @@ export const ExpertsMapView: React.FC<ExpertsMapViewProps> = ({
             </Marker>
           )}
 
-          {/* مارکر متخصصین */}
+   
           {markers.map((marker) => (
             <Marker key={marker.id} position={[marker.coords.lat, marker.coords.lng]} icon={expertIcon}>
-              {/* نوت سرمه‌ای که با هاور کردن باز می‌شود */}
+          
               <Tooltip 
                 direction="top" 
                 offset={[0, -35]} 

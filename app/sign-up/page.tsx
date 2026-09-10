@@ -13,13 +13,12 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#070D1F] font-sans selection:bg-yellow-400/30 selection:text-yellow-200">
-      {/* ================= سمت چپ: بخش فرم ================= */}
+  
       <div className="w-full lg:w-1/2 flex flex-col justify-center items-center p-4 pt-24 lg:pt-8 lg:p-8 xl:p-12 relative z-10">
         <Logo className="absolute top-6 left-6 lg:top-8 lg:left-8 z-50" />
 
-        {/* کانتینر اصلی محتوا */}
         <div className="w-full max-w-[400px]">
-          {/* متن خوش‌آمدگویی */}
+       
           {!isLogin && (
             <div className="text-center mb-9 lg:mb-8">
               <h2 className="text-[24px] lg:text-[28px] font-bold font-serif text-white mb-3 tracking-tight">
@@ -31,7 +30,7 @@ export default function AuthPage() {
             </div>
           )}
 
-          {/* دکمه‌های انتخاب نقش برای موبایل */}
+     
           <div className="w-full lg:hidden mb-6 flex space-x-2 bg-[#111A3A] p-1.5 rounded-2xl">
             <button
               onClick={() => setRole("client")}
@@ -51,7 +50,7 @@ export default function AuthPage() {
   <SignInForm 
     onSuccess={() => {
       router.push("/");
-      router.refresh(); // 👈 این خط به سرور میگه کوکی‌های جدید رو بخون و RootLayout رو آپدیت کن
+      router.refresh(); 
     }} 
   />
 ) : (
@@ -59,12 +58,11 @@ export default function AuthPage() {
     role={role} 
     onSuccess={() => {
       router.push("/");
-      router.refresh(); // 👈 اینجا هم همینطور
+      router.refresh(); 
     }} 
   />
 )}
 
-          {/* دکمه‌های سوییچ بین لاگین و ثبت‌نام */}
           <p className="mt-6 text-center text-gray-400 text-[13px] lg:text-[14px]">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button
@@ -77,7 +75,6 @@ export default function AuthPage() {
         </div>
       </div>
 
-      {/* ================= سمت راست: بخش انتخاب نقش (دسکتاپ) ================= */}
       <div className="hidden lg:flex w-1/2 bg-[#0B132B] flex-col justify-center items-center p-8 border-l border-white/5 relative overflow-hidden">
         
         <div className="absolute top-[-15%] right-[-10%] w-[450px] h-[450px] bg-yellow-400/10 rounded-full blur-[100px] pointer-events-none"></div>

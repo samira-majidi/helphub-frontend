@@ -15,12 +15,12 @@ export const VoiceRecorder = ({ onUploadSuccess, isPrivate = true }: VoiceRecord
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  // این رفرنس برای تشخیص اینه که کاربر ویس رو کنسل کرده یا ارسال کرده
+ 
   const isCancelledRef = useRef<boolean>(false);
 
   const startRecording = async () => {
     try {
-      isCancelledRef.current = false; // ریست کردن وضعیت لغو در شروع مجدد
+      isCancelledRef.current = false; 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -33,7 +33,7 @@ export const VoiceRecorder = ({ onUploadSuccess, isPrivate = true }: VoiceRecord
       };
 
       mediaRecorder.onstop = async () => {
-        // اگر ویس کنسل شده بود، هیچ کاری نکن و خارج شو
+      
         if (isCancelledRef.current) return; 
 
         const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
@@ -43,12 +43,12 @@ export const VoiceRecorder = ({ onUploadSuccess, isPrivate = true }: VoiceRecord
       mediaRecorder.start();
       setIsRecordingMode(true);
     } catch (error) {
-      console.error('❌ خطا در دسترسی به میکروفون:', error);
-      alert('لطفاً دسترسی به میکروفون را مجاز کنید.');
+       console.error('❌ Error accessing microphone:', error);
+      alert('Please allow microphone access.');
     }
   };
 
-  // متد مشترک برای متوقف کردن ضبط و خاموش کردن میکروفون
+
   const stopMediaRecorder = () => {
     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
       mediaRecorderRef.current.stop();
@@ -57,13 +57,13 @@ export const VoiceRecorder = ({ onUploadSuccess, isPrivate = true }: VoiceRecord
   };
 
   const cancelRecording = () => {
-    isCancelledRef.current = true; // علامت‌گذاری به عنوان لغو شده
+    isCancelledRef.current = true; 
     stopMediaRecorder();
     setIsRecordingMode(false);
   };
 
   const sendRecording = () => {
-    isCancelledRef.current = false; // علامت‌گذاری برای ارسال
+    isCancelledRef.current = false; 
     stopMediaRecorder();
     setIsRecordingMode(false);
   };
@@ -78,25 +78,25 @@ export const VoiceRecorder = ({ onUploadSuccess, isPrivate = true }: VoiceRecord
         onUploadSuccess(uploadedFileId);
       }
     } catch (error) {
-      console.error('❌ خطا در آپلود ویس:', error);
+     console.error('❌ Error uploading voice message:', error);
     } finally {
       setIsUploading(false);
     }
   };
 
-  // اگر در حال ضبط هستیم، رابط کاربری تلگرامی رو نشون بده
+
   if (isRecordingMode) {
     return <VoiceRecorderUI onCancel={cancelRecording} onSend={sendRecording} />;
   }
 
-  // اگر در حال ضبط نیستیم، همون دکمه میکروفون رو با استایل هماهنگ با فیلد چت نشون بده
+ 
   return (
     <button
       type="button"
       onClick={startRecording}
       disabled={isUploading}
       className="w-full h-full flex items-center justify-center rounded-xl transition-colors text-gray-500 hover:text-[#1a2438] disabled:opacity-50"
-      title="شروع ضبط صدا"
+   title="Start recording audio"
     >
       {isUploading ? (
         <span className="animate-spin text-sm">⏳</span>

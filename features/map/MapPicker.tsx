@@ -102,7 +102,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onLocationSelect, defaultLocation
     }
   };
 
-  // تابع دریافت لوکیشن کاربر (برای دکمه)
+
   const locateUser = useCallback(() => {
     setIsLocating(true);
     if ("geolocation" in navigator) {
@@ -115,7 +115,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onLocationSelect, defaultLocation
           setIsLocating(false);
         },
         (err) => {
-          console.warn("خطا در دریافت موقعیت:", err.message);
+          console.warn("Error getting user location:", err.message);
           setIsLocating(false);
         },
         { enableHighAccuracy: false, timeout: 15000, maximumAge: Infinity }
@@ -125,7 +125,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onLocationSelect, defaultLocation
     }
   }, [onLocationSelect]);
 
-  // دریافت لوکیشن در لحظه باز شدن نقشه
+
   useEffect(() => {
     if (!defaultLocation) {
       if ("geolocation" in navigator) {
@@ -138,7 +138,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onLocationSelect, defaultLocation
             setIsLocating(false);
           },
           (err) => {
-            console.warn("خطا در دریافت موقعیت:", err.message);
+            console.warn("Error getting user location:", err.message);
             setIsLocating(false);
           },
           
@@ -189,7 +189,7 @@ const MapPicker: React.FC<MapPickerProps> = ({ onLocationSelect, defaultLocation
         onClick={locateUser}
         disabled={isLocating}
         className="absolute bottom-24 right-[10px] z-[1000] bg-white w-[34px] h-[34px] rounded-[4px] shadow-[0_1px_5px_rgba(0,0,0,0.2)] hover:bg-gray-50 flex items-center justify-center transition-colors disabled:opacity-70 disabled:cursor-not-allowed border-2 border-[rgba(0,0,0,0.2)] bg-clip-padding"
-        title="مکان من"
+       title="My location"
       >
         {isLocating ? (
           <span className="w-4 h-4 border-2 border-brand-navy border-t-transparent rounded-full animate-spin"></span>

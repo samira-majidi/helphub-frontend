@@ -10,7 +10,7 @@ interface VoiceRecorderUIProps {
 export const VoiceRecorderUI = ({ onCancel, onSend }: VoiceRecorderUIProps) => {
   const [seconds, setSeconds] = useState(0);
 
-  // تایمر (بدون تغییر در منطق)
+ 
   useEffect(() => {
     const interval = setInterval(() => {
       setSeconds((prev) => prev + 1);
@@ -18,7 +18,7 @@ export const VoiceRecorderUI = ({ onCancel, onSend }: VoiceRecorderUIProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  // فرمت کردن زمان (مثلاً 01:05)
+ 
   const formatTime = (sec: number) => {
     const m = Math.floor(sec / 60).toString().padStart(2, '0');
     const s = (sec % 60).toString().padStart(2, '0');
@@ -26,10 +26,10 @@ export const VoiceRecorderUI = ({ onCancel, onSend }: VoiceRecorderUIProps) => {
   };
 
   return (
-    // 🌟 نکته کلیدی: absolute inset-0 باعث میشه این کامپوننت کل کادر پیام رو بپوشونه
+
     <div className="absolute inset-0 z-50 flex items-center justify-between bg-white px-4 py-1.5 rounded-2xl shadow-sm border border-yellow-400">
       
-      {/* دکمه Cancel به سبک تلگرام (انگلیسی) */}
+     
       <button 
         onClick={onCancel} 
         className="flex items-center gap-1.5 text-gray-400 hover:text-red-500 text-sm font-semibold transition-colors"
@@ -40,7 +40,7 @@ export const VoiceRecorderUI = ({ onCancel, onSend }: VoiceRecorderUIProps) => {
         Cancel
       </button>
 
-      {/* تایمر و نقطه چشمک‌زن رکورد */}
+
       <div className="flex items-center gap-2">
         <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_5px_rgba(239,68,68,0.5)]" />
         <span className="text-gray-800 font-mono text-base font-semibold tracking-wider">
@@ -48,7 +48,7 @@ export const VoiceRecorderUI = ({ onCancel, onSend }: VoiceRecorderUIProps) => {
         </span>
       </div>
 
-      {/* دکمه ارسال ویس (زرد رنگ برای هماهنگی با تم HelpHub) */}
+   
       <button 
         onClick={onSend} 
         className="w-10 h-10 flex items-center justify-center bg-[#fbc02d] text-[#1a2438] rounded-xl hover:bg-yellow-500 transition-all shadow-sm shrink-0"

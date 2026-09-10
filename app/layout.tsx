@@ -32,12 +32,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     try {
       const parsed = JSON.parse(decodeURIComponent(authCookie));
       isLoggedIn = parsed?.state?.isAuthenticated === true;
-      
-      // 👈 استخراج اطلاعات از داخل توکن JWT
+
       if (parsed?.state?.accessToken) {
         const token = parsed.state.accessToken;
-        const base64Url = token.split('.')[1]; // استخراج بخش دوم توکن (Payload)
-        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // استانداردسازی فرمت
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); 
         const jwtPayload = JSON.parse(Buffer.from(base64, 'base64').toString('utf-8'));
         
         email = jwtPayload.email || null;

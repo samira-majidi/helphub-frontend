@@ -5,5 +5,5 @@ export enum ExpertAvailabilityStatus {
 }
 
 export interface UpdateAvailabilityPayload {
-  availabilityStatus: ExpertAvailabilityStatus; // <--- این باید دقیقاً نام فیلد DTO باشه
+  availabilityStatus: ExpertAvailabilityStatus;
 }

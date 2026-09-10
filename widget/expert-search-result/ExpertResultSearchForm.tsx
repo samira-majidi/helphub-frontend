@@ -38,10 +38,10 @@ export default function ExpertResultSearchForm({
 }: ExpertResultSearchFormProps) {
   return (
     <div className="w-full font-sans">
-      {/* ردیف بالا: باکس انتخاب تخصص + باکس لوکیشن */}
+ 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-12">
         
-        {/* ۱. باکس انتخاب سرویس / دسته‌بندی */}
+  
         <div className="relative flex items-center rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all focus-within:border-slate-400 sm:col-span-7">
           <Search className="mr-3 h-5 w-5 shrink-0 text-slate-400" />
           <div className="w-full [&>div]:border-none [&_select]:w-full [&_select]:border-none [&_select]:bg-transparent [&_select]:p-0 [&_select]:text-sm [&_select]:font-medium [&_select]:text-[#061c38] [&_select]:focus:ring-0">
@@ -49,7 +49,6 @@ export default function ExpertResultSearchForm({
           </div>
         </div>
 
-        {/* ۲. دکمه انتخاب لوکیشن */}
         <button
           type="button"
           onClick={() => setIsMapModalOpen(true)}
@@ -65,7 +64,7 @@ export default function ExpertResultSearchForm({
         </button>
       </div>
 
-      {/* ردیف پایین: دکمه‌های فیلتر و سورت */}
+
       <div className="mt-3 flex items-center gap-2">
         <button
           type="button"
@@ -83,7 +82,7 @@ export default function ExpertResultSearchForm({
         </div>
       </div>
 
-      {/* مودال نقشه اختصاصی برای انتخاب لوکیشن */}
+
       {isMapModalOpen && (
         <div dir="ltr" className="fixed inset-0 z-[100] flex items-center justify-center bg-[#061c38]/40 p-4 backdrop-blur-xs">
           <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl">

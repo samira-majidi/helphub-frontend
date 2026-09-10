@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { registerUserApi } from '../api/registerUser'; // مسیر رو چک کن
+import { registerUserApi } from '../api/registerUser'; 
 import { RegisterPayload } from '../model/type';
 import { useAuthStore } from '@/session/useAuthStore';
 
@@ -18,11 +18,10 @@ export const useSignUp = ({ onSuccess }: UseSignUpProps = {}) => {
     setError(null);
 
  try {
-      // as any موقت برای جلوگیری از خطای تایپ‌اسکریپت روی response
+     
       const response = await registerUserApi(payload);
-      console.log(response);
-
-      // استخراج توکن دقیقاً مثل ثبت‌نام متخصص
+     
+    
       const token = response.data?.accesstoken;
       if (token) {
         setToken(token);

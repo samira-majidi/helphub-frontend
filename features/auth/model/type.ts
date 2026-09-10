@@ -9,8 +9,8 @@ export interface User {
 
 export interface RegisterResponseData {
   user: User;
-  accesstoken: string;   // دقیقاً مطابق JSON شما
-  refreshToken: string;  // دقیقاً مطابق JSON شما
+  accesstoken: string;   
+  refreshToken: string;  
 }
 
 export interface MetaData {
@@ -19,13 +19,13 @@ export interface MetaData {
   version: string;
 }
 
-// تایپ نهایی پاسخ سرور
+
 export interface RegisterResponse {
   data: RegisterResponseData;
   meta: MetaData;
 }
 
-// تایپ دیتای ارسالی به سرور (بدنه درخواست)
+
 export interface RegisterPayload {
   name?: string;
   lastName?: string;
@@ -34,19 +34,19 @@ export interface RegisterPayload {
 }
 
 
-// ساختار داده‌های برگشتی در بخش data
+
 export interface SignInData {
   accesstoken: string;
   refreshToken: string;
 }
 
-// تایپ نهایی پاسخی که از سرور می‌گیریم
+
 export interface SignInResponse {
   data: SignInData;
   meta: MetaData;
 }
 
-// تایپ اطلاعاتی که به عنوان بدنه درخواست (Body) برای ورود می‌فرستیم
+
 export interface SignInPayload {
   email: string;
   password: string;

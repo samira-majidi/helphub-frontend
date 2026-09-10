@@ -26,7 +26,7 @@ export function ConversationItem({ conv, isActive, onClick }: ConversationItemPr
   const fullName = `${user.name || ''} ${user.lastName || ''}`.trim() || `User #${user.id}`;
   const displayTime = formatTime(conv.updated_at);
   
-  // بررسی اینکه پیام جدیدی وجود داره یا نه
+
   const hasUnread = conv.unread_count && conv.unread_count > 0;
 
   return (

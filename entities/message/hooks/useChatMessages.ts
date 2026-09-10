@@ -20,12 +20,12 @@ export const useChatMessages = (targetUserID: number) => {
   const [isTargetOnline, setIsTargetOnline] = useState(false);
   const [targetUser, setTargetUser] = useState<{ name?: string; avatar?: string; role?: string } | null>(null);
 
-  // Ref جهت دسترسی به آخرین roomId در زمان cleanup افکت
+
   const activeRoomIdRef = useRef<string | null>(null);
   // eslint-disable-next-line react-hooks/refs
   activeRoomIdRef.current = activeRoomId;
 
-  // States for Pagination
+
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -36,7 +36,7 @@ export const useChatMessages = (targetUserID: number) => {
       const decoded = jwtDecode<{ sub: number }>(accessToken);
       return Number(decoded.sub);
     } catch (err) {
-      console.error('❌ خطا در دیکد کردن توکن:', err);
+      console.error('❌ Error decoding token:', err);
       return null;
     }
   }, [accessToken]);
@@ -47,14 +47,14 @@ export const useChatMessages = (targetUserID: number) => {
       try {
         const profile = await getUserProfile(targetUserID);
         
-        // بک‌اند الان نام، نام خانوادگی و آواتار رو (چه متخصص چه عادی) یکپارچه میده
+     
         setTargetUser({
           name: `${profile.name || ''} ${profile.lastName || ''}`.trim(),
           avatar: profile.avatarUrl,
-          role: profile.role, // اگه دوست داشتی بدونی طرف متخصص هست یا نه
+          role: profile.role, 
         });
       } catch (error) {
-        console.error('❌ خطا در دریافت اطلاعات کاربر مقابل:', error);
+        console.error('❌ Error fetching target user profile:', error);
       }
     };
 
@@ -106,11 +106,11 @@ export const useChatMessages = (targetUserID: number) => {
             image: msg.image,
             audio: msg.audio,
           }));
-          // در لود اولیه، پیام‌ها رو مستقیماً ست می‌کنیم (نیاز به prev نیست)
+       
           setMessages(formattedMessages);
         }
       } catch (error) {
-        console.error('❌ خطا در دریافت پیام‌های روم:', error);
+        console.error('❌ Error fetching room messages:', error);
       }
     };
 
@@ -139,7 +139,7 @@ export const useChatMessages = (targetUserID: number) => {
     const handleDisconnect = () => {
       setIsConnected(false);
       setActiveRoomId(null);
-      setIsTargetOnline(false); // وقتی خودمون قطع می‌شیم، فرض می‌کنیم آفلاین شده
+      setIsTargetOnline(false); 
     };
 
     const handleUserStatusChanged = (data: { userId: number; status: string; lastSeen?: number }) => {
@@ -152,7 +152,7 @@ export const useChatMessages = (targetUserID: number) => {
       }
     };
 
-    // اگر سوکت در لحظه ماونت وصل بود، مستقیماً جوین شو
+  
     if (socketInstance.connected) {
       handleConnect();
     }
@@ -206,7 +206,7 @@ if (socketInstance.connected) {
           audio: msg.audio,
         }));
 
-        // 🌟 فیلتر کردن پیام‌های تکراری
+  
         setMessages((prev) => {
           const uniqueOlderMessages = formattedOlderMessages.filter(
             (olderMsg) => !prev.some((prevMsg) => prevMsg.id === olderMsg.id)
@@ -216,7 +216,7 @@ if (socketInstance.connected) {
       }
       setNextCursor(newCursor || null);
     } catch (error) {
-      console.error('❌ خطا در دریافت پیام‌های قدیمی:', error);
+      console.error('❌ Error fetching older messages:', error);
     } finally {
       setIsLoadingMore(false);
     }
@@ -243,13 +243,13 @@ if (socketInstance.connected) {
 
   const sendImage = useCallback((imageId: string) => {
     if (isConnected && activeRoomId) {
-      socketService.sendDirectMessage(activeRoomId, '🖼️ تصویر ارسال شد', 'IMAGE', imageId);
+      socketService.sendDirectMessage(activeRoomId, '🖼️ Photo sent', 'IMAGE', imageId);
     }
   }, [isConnected, activeRoomId]);
  
   const sendVoice = useCallback((audioId: string) => {
     if (isConnected && activeRoomId) {
-      socketService.sendDirectMessage(activeRoomId, '🎤 پیام صوتی', 'AUDIO', undefined, audioId);
+      socketService.sendDirectMessage(activeRoomId, '🎤 Voice message', 'AUDIO', undefined, audioId);
     }
   }, [isConnected, activeRoomId]);
 

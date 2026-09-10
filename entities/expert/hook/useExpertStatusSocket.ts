@@ -43,18 +43,18 @@ export const useExpertStatusSocket = () => {
       
       queryClient.setQueriesData(
         { queryKey: ['experts', 'search'] }, 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (oldData: any) => {
           if (!oldData) return oldData;
 
-          // لاگ برای دیباگ: به ما نشون میده ساختار دقیق کش چیه
-          // console.log('📦 Current Cache Data:', oldData);
+      
 
-          // حالت ۱: خروجی از نوع useInfiniteQuery است (داده‌ها داخل آرایه pages هستند)
+         
           if (oldData.pages && Array.isArray(oldData.pages)) {
             return {
               ...oldData,
               pages: oldData.pages.map((page: any) => {
-                // اگر داده‌های هر صفحه داخل پراپرتی data هستند (مثل فرمت‌های استاندارد NestJS)
+             
                 if (page.data && Array.isArray(page.data)) {
                   return {
                     ...page,
@@ -84,7 +84,7 @@ export const useExpertStatusSocket = () => {
             };
           }
 
-          // حالت ۳: داده‌ها داخل پراپرتی items هستند (بسته به پیاده‌سازی بک‌اند)
+       
           if (oldData.items && Array.isArray(oldData.items)) {
             return {
               ...oldData,
@@ -94,7 +94,7 @@ export const useExpertStatusSocket = () => {
             };
           }
 
-          // حالت ۴: داده‌ها واقعاً یک آرایه ساده هستند
+       
           if (Array.isArray(oldData)) {
             return oldData.map((expert: ExpertProfileData) =>
               expert.id === data.expertId ? { ...expert, availabilityStatus: data.status } : expert
@@ -124,5 +124,3 @@ export const useExpertStatusSocket = () => {
     };
   }, [queryClient]);
 };
-   // TODO: Backend is double-wrapping the data (page.data.data). 
-   // Fix the NestJS interceptor/controller later and remove this ugly hack! 

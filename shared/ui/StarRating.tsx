@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface StarRatingProps {
-  rating: number;      // تعداد ستاره‌های روشن
-  total?: number;      // کل ستاره‌هایی که باید رندر بشن (پیش‌فرض ۵)
-  className?: string;  // برای استایل‌دهی به div دربرگیرنده
-  starSize?: string;   // کلاس سایز ستاره‌ها (پیش‌فرض w-4 h-4)
+  rating: number;    
+  total?: number;      
+  className?: string;  
+  starSize?: string;  
 }
 
 export function StarRating({ 

@@ -31,10 +31,10 @@ export default function ChatBox({ targetUserID, onBack }: ChatBoxProps) {
 
   return (
     <div className="flex flex-col h-full bg-white overflow-hidden" dir="ltr">
-      {/* هدر چت‌روم */}
+
       <div className="flex items-center justify-between px-4 sm:px-8 py-5 border-b border-gray-50">
         <div className="flex items-center gap-3">
-          {/* دکمه بک برای موبایل */}
+      
           <button 
             onClick={onBack}
             className="md:hidden mr-1 text-gray-500 hover:text-[#1e1b4b]"
@@ -112,7 +112,7 @@ export default function ChatBox({ targetUserID, onBack }: ChatBoxProps) {
         
       </div>
 
-      {/* بخش ارسال پیام */}
+    
       <div className="px-4 sm:px-8 py-5 bg-white">
         <div className="relative flex items-center gap-2 bg-[#f8f9fa] border border-gray-100 rounded-[28px] p-1.5 focus-within:ring-1 focus-within:ring-[#1e1b4b] focus-within:bg-white transition-all">
           

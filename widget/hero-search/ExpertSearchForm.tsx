@@ -18,7 +18,7 @@ interface ExpertSearchFormProps {
   setLocation: (loc: LocationCoords) => void;
   isMapModalOpen: boolean;
   setIsMapModalOpen: (isOpen: boolean) => void;
-  onSearch: () => void; // 👈 اضافه شد
+  onSearch: () => void; 
 }
 
 export default function ExpertSearchForm({
@@ -28,7 +28,7 @@ export default function ExpertSearchForm({
   setLocation,
   isMapModalOpen,
   setIsMapModalOpen,
-  onSearch // 👈 اضافه شد
+  onSearch 
 }: ExpertSearchFormProps) {
   const handleSearch = () => {
   if (!categoryId && !location) {
@@ -52,7 +52,7 @@ export default function ExpertSearchForm({
     <>
       <div className="font-sans w-full max-w-[50rem] mr-auto relative z-10">
         
-        {/* حالت دسکتاپ (کپسولی و یکپارچه) */}
+   
         <div className="hidden md:flex bg-white rounded-[0.5rem] shadow-[0_10px_40px_rgb(0,0,0,0.08)] p-2 gap-2">
           
           <div className="flex-1 flex">
@@ -89,7 +89,7 @@ export default function ExpertSearchForm({
           </button>
         </div>
 
-        {/* حالت موبایل (عمودی و خوانا) */}
+      
         <div className="md:hidden bg-white p-2 rounded-[0.5rem] max-w-[30rem] shadow-[0_10px_40px_rgb(0,0,0,0.08)] flex flex-col items-center gap-2">
             <div className="w-full flex items-center px-4 py-2">
               <LayoutGrid className="w-4 h-5 text-gray-800 mr-3.5 shrink-0" strokeWidth={1.5} />

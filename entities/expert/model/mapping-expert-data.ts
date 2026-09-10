@@ -9,7 +9,7 @@ export const mapInitialDataToFormValues = (
   
   return {
     categoryId: initialData.category?.id || undefined,
-    // بررسی می‌کنیم که آیا مختصات وجود دارد یا خیر
+
     location: initialData.location?.coordinates
       ? { 
           lng: initialData.location.coordinates[0], 

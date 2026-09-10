@@ -41,7 +41,7 @@ export const BecomeExpertModal = ({ isOpen, onClose }: BecomeExpertModalProps) =
           <X size={24} />
         </button>
 
-        {/* محتوای مودال */}
+     
         <div className="text-center mt-2">
           <h2 className="text-2xl font-bold font-serif text-brand-navy mb-4">
             Join as a Professional
@@ -50,18 +50,18 @@ export const BecomeExpertModal = ({ isOpen, onClose }: BecomeExpertModalProps) =
             Offer your services, manage your profile, and connect with new clients by creating a professional account.
           </p>
           
-          {/* دکمه‌ها - فاصله‌ها و رنگ‌ها اصلاح شد */}
+   
           <div className="flex flex-col sm:flex-row gap-4">
             <button
               onClick={onClose}
-              // رنگ قرمز برای دکمه کنسل
+           
               className="w-full px-4 py-3 text-sm font-bold text-white bg-red-500 rounded-xl hover:bg-red-600 transition-colors shadow-sm"
             >
               Cancel
             </button>
             <button
               onClick={handleSignUp}
-              // رنگ زرد برای دکمه ثبت نام (با متن سرمه‌ای برای خوانایی بهتر)
+         
               className="w-full px-4 py-3 text-sm font-bold text-brand-navy bg-[#FACC15] rounded-xl hover:bg-[#eab308] transition-colors shadow-sm"
             >
               Sign Up Now

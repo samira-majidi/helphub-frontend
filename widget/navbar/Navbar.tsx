@@ -22,7 +22,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname(); 
  const { isExpert } = useIsLoggedIn();
-  const [isModalOpen, setIsModalOpen] = useState(false); // 5. استیت برای کنترل مودال
+  const [isModalOpen, setIsModalOpen] = useState(false);
    
     if (pathname === '/sign-up' || pathname.startsWith('/chat')) {
     return null; 
@@ -37,8 +37,8 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
   const initial = (name || email)?.charAt(0).toUpperCase() || null; 
  const handleProfessionalClick = (e: React.MouseEvent) => {
     if (!isExpert) {
-      e.preventDefault(); // جلوی رفتار پیش‌فرض لینک رو می‌گیریم
-      setIsModalOpen(true); // مودال رو باز می‌کنیم
+      e.preventDefault();
+      setIsModalOpen(true); 
     }
   };
   return (
@@ -49,7 +49,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
             
             <Logo />
 
-            {/* لینک‌های وسط */}
+    
             <nav className="hidden lg:flex items-center gap-8">
            <button
   type="button"
@@ -78,12 +78,12 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
 </button>
             </nav>
 
-            {/* دکمه‌های سمت راست - دسکتاپ */}
+          
             <div className="hidden lg:flex items-center gap-5">
               {isLoggedIn ? (
-                // 🥇 حالت لاگین شده (دسکتاپ)
+              
                 <>
-                  {/* ۲. اضافه شدن دکمه چت برای دسکتاپ */}
+         
                   <Link href="/chats">
                     <ChatNavButton />
                   </Link>
@@ -112,7 +112,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
 </div>
                 </>
               ) : (
-                // 🚪 حالت مهمان (دسکتاپ)
+             
                 <>
                   <Link href="/sign-up" className="text-sm font-semibold text-[#FACC15] hover:text-yellow-400 transition-colors">
                     Sign Up
@@ -127,9 +127,9 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
               )}
             </div>
 
-            {/* همبرگر منو و دکمه چت موبایل */}
+        
             <div className="flex items-center gap-2 lg:hidden">
-              {/* ۳. اضافه شدن دکمه چت برای موبایل (کنار همبرگر منو) */}
+          
               {isLoggedIn && (
                 <Link href="/chats">
                   <ChatNavButton />
@@ -147,7 +147,7 @@ const Navbar = ({ isLoggedIn = false, email = null ,name = null }: NavbarProps) 
         </div>
       </header>
 
-      {/* --- منوی موبایل --- */}
+
       {isMobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/60 z-[60] lg:hidden"

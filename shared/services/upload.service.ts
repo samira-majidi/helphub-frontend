@@ -1,11 +1,11 @@
 import api from "./Api";
 
-// 👇 پارامتر isPrivate رو اضافه کردیم با مقدار پیش‌فرض false
+
 export const uploadFile = async (file: File, isPrivate: boolean = false): Promise<string> => {
   const formData = new FormData();
   formData.append('file', file);
 
-  // 👇 فقط اگر پرایوت بود، این فیلد رو به فرم‌دیتا اضافه کن
+
   if (isPrivate) {
     formData.append('isPrivate', 'true');
   }

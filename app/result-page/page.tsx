@@ -10,7 +10,7 @@ export default function ResultPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
    useExpertStatusSocket();
-  // گرفتن تمام استیت‌ها و لاجیک‌ها از هوک بدون تغییر
+
   const { 
     location, 
     categoryId, 
@@ -28,7 +28,6 @@ export default function ResultPageContent() {
     lng: searchParams.has('lng') ? Number(searchParams.get('lng')) : undefined,
   });
 
-  // سینک کردن URL با استیت‌های جستجو (بدون رفرش صفحه)
   useEffect(() => {
     const params = new URLSearchParams();
     if (categoryId) params.append('categoryId', categoryId.toString());
@@ -36,13 +35,12 @@ export default function ResultPageContent() {
       params.append('lat', location.lat.toString());
       params.append('lng', location.lng.toString());
     }
-    // جایگزین کردن URL فعلی تا اگر کاربر صفحه رو رفرش کرد اطلاعات بماند
+  
     router.replace(`?${params.toString()}`, { scroll: false });
   }, [location, categoryId, router]);
 
   return (
-    // ✨ تغییر اصلی اینجاست ✨
-    // ارتفاع و overflow فقط در سایز دسکتاپ (lg) اعمال می‌شوند
+ 
     <div className="mx-auto flex w-full max-w-7xl flex-col max-lg:h-auto lg:h-[calc(100vh-80px)] lg:overflow-hidden px-4 pt-6 sm:px-6 lg:px-8">
       <ExpertSearchResults
         location={location}

@@ -1,4 +1,4 @@
-'use client'; // اگه از App Router استفاده می‌کنی این نیازه
+'use client';
 
 import { useQuery } from '@tanstack/react-query';
 import { MessageCircle } from 'lucide-react';
@@ -7,13 +7,13 @@ import { Conversation } from '@/entities/conversation/type/conversation';
 
 export default function ChatNavButton() {
 
-  // ۲. دریافت دیتا از کش یا بک‌اند
+
   const { data: apiResponse } = useQuery({
     queryKey: ['recent-conversations'],
     queryFn: conversationApi.getConversations,
   });
 
-  // ۳. محاسبه مستقیم (Derived State) سازگار با React Compiler و تایپ دقیق
+
   const totalUnread = apiResponse?.data
     ? apiResponse.data.reduce(
         (sum: number, conv: Conversation) => sum + Number(conv.unread_count || 0),
@@ -23,7 +23,7 @@ export default function ChatNavButton() {
 
   return (
     <div className="relative p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer">
-      {/* رنگ آیکون رو به سفید تغییر دادیم */}
+ 
       <MessageCircle className="w-6 h-6 text-white" />
 
       {totalUnread > 0 && (

@@ -1,18 +1,29 @@
 'use client'
 import React from "react";
-// ایمپورت‌ها دست نخورده باقی می‌مانند
-import { Bell, Settings } from "lucide-react"; 
+import dynamic from "next/dynamic"; // 👈 اضافه شد
+import { Bell, Settings, Loader2 } from "lucide-react"; 
 import ExpertProfile from "@/entities/expert/ui/ExpertProfile"; 
 import { ExpertStatusManager } from "@/entities/expert/ui/ExpertStatusManager";
-import DashboardSimpleConversationList from "@/widget/converstation-item/DashboardSimpleConversationList";
+
+// 👇 بارگذاری تنبل لیست پیام‌ها
+const DashboardSimpleConversationList = dynamic(
+  () => import("@/widget/converstation-item/DashboardSimpleConversationList"),
+  {
+    loading: () => (
+      <div className="p-8 flex items-center justify-center text-slate-400">
+        <Loader2 className="w-6 h-6 animate-spin text-amber-500" />
+      </div>
+    ),
+    ssr: false,
+  }
+);
 
 export default function ExpertDashboardPage() {
   return (
     <main className="min-h-screen bg-[#F8F9FA] p-6 font-sans">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-6">
         
-        {/* === ردیف اول: هدر اصلی (فول ویدث) === */}
-      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 sm:px-8 rounded-2xl border border-gray-100 shadow-sm w-full">
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 sm:px-8 rounded-2xl border border-gray-100 shadow-sm w-full">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight flex items-center gap-2">
               Expert Dashboard <span className="text-xl">✨</span>
@@ -25,7 +36,6 @@ export default function ExpertDashboardPage() {
           <div className="flex items-center gap-6 mt-2 sm:mt-0">
             <ExpertStatusManager />
             
-            {/* 👇 با کلاس hidden sm:flex این قسمت در موبایل کلاً حذف میشه */}
             <div className="hidden sm:flex items-center gap-3 border-l border-gray-100 pl-6">
               <button className="p-2 text-gray-400 hover:text-gray-600 bg-white hover:bg-gray-50 rounded-full border border-gray-100 transition-all shadow-sm">
                 <Bell size={18} />
@@ -37,24 +47,13 @@ export default function ExpertDashboardPage() {
           </div>
         </header>
 
-        {/* === ردیف دوم: دو ستون (چپ پروفایل، راست بقیه موارد) === */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
-          {/* ستون چپ: پروفایل متخصص */}
           <aside className="lg:col-span-4">
             <ExpertProfile />
           </aside>
 
-          {/* ستون راست: آمارها، پیام‌ها و نمودار */}
           <section className="lg:col-span-8 flex flex-col gap-6">
-            
-            {/* ردیف کارت‌های آمار */}
-                       {/* ردیف کارت‌های آمار */}
-            {/* تغییرات: استفاده از flex و overflow-x-auto برای موبایل و بازگشت به grid در md */}
             <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 md:grid md:grid-cols-3 md:pb-0 md:overflow-visible [&::-webkit-scrollbar]:hidden">
-              
-              {/* Stat Card 1: Total Views */}
-              {/* تغییرات: اضافه شدن min-w-[260px] md:min-w-0 shrink-0 snap-center */}
               <div className="min-w-[260px] md:min-w-0 snap-center shrink-0 bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
                 <h3 className="text-sm font-bold text-gray-800 mb-4">Total Views</h3>
                 <div className="flex items-end justify-between">
@@ -100,11 +99,8 @@ export default function ExpertDashboardPage() {
                   </div>
                 </div>
               </div>
-              
             </div>
 
-            
-            {/* ویجت لیست پیام‌ها با عنوان */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="p-5 sm:p-6 flex justify-between items-center">
                   <h3 className="text-base font-bold text-gray-800">Recent Messages</h3>
@@ -113,7 +109,6 @@ export default function ExpertDashboardPage() {
               <DashboardSimpleConversationList />
             </div>
 
-            {/* ویجت نمودار */}
             <div className="bg-white p-5 sm:p-6 rounded-2xl border border-gray-100 shadow-sm">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-base font-bold text-gray-800">Profile Views</h3>

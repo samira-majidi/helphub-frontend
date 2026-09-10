@@ -10,7 +10,7 @@ export interface ServerUser {
    name: string; 
 }
 
-// تعریف تایپ برای جلوگیری از ارور Unexpected any
+
 interface CustomJwtPayload {
   sub?: string;
   id?: string;
@@ -18,9 +18,9 @@ interface CustomJwtPayload {
     name?: string; 
 }
 
-// تابع باید async باشه و Promise برگردونه
+
 export async function getServerUser(): Promise<ServerUser | null> {
-  // اضافه کردن await برای cookies()
+
   const cookieStore = await cookies(); 
   const authCookie = cookieStore.get('auth-storage')?.value;
 
@@ -32,7 +32,7 @@ export async function getServerUser(): Promise<ServerUser | null> {
 
     if (!token) return null;
 
-    // استفاده از جنریک برای مشخص کردن تایپ خروجی
+   
     const decodedToken = jwtDecode<CustomJwtPayload>(token);
     
     return {

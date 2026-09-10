@@ -15,15 +15,15 @@ export const AutoUploadInput = ({ onUploadSuccess, label = "Select Image", isPri
     if (file) {
      mutate({ file, isPrivate }, {
       onSuccess: (res) => {
-        console.log("Response directly in Component:", res); // 👈 اینو حتما چک کن
+        console.log("Response directly in Component:", res);
         if (res) {
           onUploadSuccess(res);
         } else {
-          console.error("بک‌اِند جواب داد ولی دیتا خالیه!");
+          console.error("Backend responded, but the data is empty!");
         }
       },
       onError: (err) => {
-        console.error("خطای شبکه یا سرور:", err);
+        console.error("Network or server error:", err);
           console.log("BASE URL IS:", process.env.NEXT_PUBLIC_API_URL);
 
       }
@@ -33,14 +33,14 @@ export const AutoUploadInput = ({ onUploadSuccess, label = "Select Image", isPri
   };
 
   return (
-    // یه کانتینر ساده که دقیقاً اندازه والد خودش (همون دکمه‌های ۳۶ پیکسلی تو چت‌باکس) درمیاد
+
     <div className="relative flex items-center justify-center w-full h-full text-gray-500 hover:text-[#1a2438] transition-colors cursor-pointer" title={label}>
       
       {isPending ? (
-        // در زمان آپلود شدن، آیکون لودینگ نشون میده
+
         <span className="animate-spin text-sm">⏳</span>
       ) : (
-        // آیکون پیوست/عکس به رنگ خاکستری (مشابه تصویر HelpHub)
+  
         <svg 
           className="w-5 h-5" 
           fill="none" 
@@ -50,8 +50,7 @@ export const AutoUploadInput = ({ onUploadSuccess, label = "Select Image", isPri
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
         </svg>
       )}
-      
-      {/* اینپوت نامرئی که روی کل آیکون رو پوشونده تا قابل کلیک باشه */}
+  
       <input 
         type="file" 
         accept="image/*" 

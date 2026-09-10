@@ -9,7 +9,7 @@ import Link from 'next/link';
 export default function DashboardNavbar() {
   const { name} = useIsLoggedIn();
 
-  const displayName = name || 'کاربر عزیز';
+  const displayName = name || 'Dear User';
 
   const initial =
     (name)?.charAt(0).toUpperCase() || null;

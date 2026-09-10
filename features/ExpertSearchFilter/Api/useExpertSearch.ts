@@ -5,7 +5,7 @@ import { searchExperts } from '@/entities/expert/api/expert.api';
 
 export const useExpertSearch = (p0: { category: number | undefined; lat: number | undefined; lng: number | undefined; }) => {
 
-  // مقادیر اولیه مستقیم از p0 گرفته میشن
+
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(
     p0.lat && p0.lng ? { lat: p0.lat, lng: p0.lng } : null
   );

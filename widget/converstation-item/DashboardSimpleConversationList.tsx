@@ -16,10 +16,7 @@ export default function DashboardSimpleConversationList() {
 
   return (
     <div className="w-full flex flex-col">
-      {/* 
-        هدر و ارتفاع ثابت حذف شد تا کاملاً داخل کارت داشبورد 
-        بدون اسکرول اضافی و حاشیه‌های اضافی فیت شود 
-      */}
+     
       <div className="flex-1 w-full overflow-hidden pb-1">
         {conversations && conversations.length > 0 ? (
           <ul className="flex flex-col w-full">

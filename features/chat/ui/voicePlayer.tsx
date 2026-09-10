@@ -33,7 +33,7 @@ export function VoicePlayer({ src }: { src: string }) {
 
   return (
     <div className="flex items-center gap-3 bg-black/10 p-2.5 rounded-2xl min-w-[220px]">
-      {/* دکمه Play/Pause به رنگ زرد HelpHub */}
+
       <button
         onClick={togglePlay}
         className="w-10 h-10 flex items-center justify-center bg-[#fbc02d] text-[#1a2438] rounded-full shadow-sm hover:scale-105 transition-transform shrink-0"
@@ -45,7 +45,7 @@ export function VoicePlayer({ src }: { src: string }) {
         )}
       </button>
 
-      {/* نوار پیشرفت (Progress Bar) */}
+   
       <div className="flex-1 h-1.5 bg-black/20 rounded-full overflow-hidden">
         <div
           className="h-full bg-[#fbc02d] transition-all duration-75"
@@ -53,7 +53,6 @@ export function VoicePlayer({ src }: { src: string }) {
         />
       </div>
 
-      {/* تگ اصلی و مخفی صدا */}
       <audio
         ref={audioRef}
         src={src}

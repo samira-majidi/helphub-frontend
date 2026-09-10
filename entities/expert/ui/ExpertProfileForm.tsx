@@ -66,7 +66,7 @@ export const ExpertProfileForm: React.FC<ExpertProfileFormProps> = (props) => {
                 />
               )}
             />
-            {/* استایل نمایشی کانتر متن مثل عکس (می‌تونی بعداً داینامیکش کنی) */}
+    
             <span className="absolute bottom-4 right-4 text-xs text-slate-400 font-medium">
               114/500
             </span>
@@ -90,7 +90,7 @@ export const ExpertProfileForm: React.FC<ExpertProfileFormProps> = (props) => {
                 label="Click to upload or drag & drop (JPG, PNG)"
                 isPrivate={false}
               />
-              {/* پیام موفقیت دقیقاً با استایل عکس طراحی شد */}
+          
               {uploadedImageIds && uploadedImageIds.length > 0 && (
                 <div className="mt-4 px-4 py-2 bg-emerald-50 border border-emerald-100 rounded-full flex items-center gap-2">
                   <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white">

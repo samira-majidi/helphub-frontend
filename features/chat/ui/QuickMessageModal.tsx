@@ -29,7 +29,7 @@ console.log('QUICK MESSAGE:', {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col h-[500px]">
         
-        {/* هدر سرمه‌ای با آواتار بزرگتر */}
+    
         <div className="bg-[#061c38] px-5 py-4 flex items-center justify-between text-white">
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-12 rounded-full bg-white/15 border border-white/20 flex items-center justify-center font-bold text-base overflow-hidden shrink-0 shadow-inner">
@@ -52,7 +52,7 @@ console.log('QUICK MESSAGE:', {
           </button>
         </div>
 
-        {/* لیست پیام‌ها با متن راهنمای سفارش و قیمت */}
+       
         <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50/60">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center px-6 text-slate-500">
@@ -68,7 +68,7 @@ console.log('QUICK MESSAGE:', {
           )}
         </div>
 
-        {/* اینپوت ارسال پیام با رنگ برند سرمه‌ای */}
+   
         <div className="p-3 bg-white border-t border-slate-100 flex items-center gap-2">
           <input
             type="text"
